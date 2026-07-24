@@ -1,0 +1,19 @@
+diff --git a/source/berkeley_humanoid_lite/berkeley_humanoid_lite/environments/mujoco.py b/source/berkeley_humanoid_lite/berkeley_humanoid_lite/environments/mujoco.py
+index 886497b..3061570 100644
+--- a/source/berkeley_humanoid_lite/berkeley_humanoid_lite/environments/mujoco.py
++++ b/source/berkeley_humanoid_lite/berkeley_humanoid_lite/environments/mujoco.py
+@@ -34,10 +34,12 @@ class MujocoEnv:
+         self.cfg = cfg
+ 
+         # Load appropriate MJCF model based on robot configuration
++        # NOTE: asset submodule layout is data/robots/.../mjcf, not the legacy data/mjcf path.
++        _mjcf_dir = "source/berkeley_humanoid_lite_assets/data/robots/berkeley_humanoid/berkeley_humanoid_lite/mjcf"
+         if cfg.num_joints == 22:
+-            self.mj_model = mujoco.MjModel.from_xml_path("source/berkeley_humanoid_lite_assets/data/mjcf/bhl_scene.xml")
++            self.mj_model = mujoco.MjModel.from_xml_path(f"{_mjcf_dir}/bhl_scene.xml")
+         else:
+-            self.mj_model = mujoco.MjModel.from_xml_path("source/berkeley_humanoid_lite_assets/data/mjcf/bhl_biped_scene.xml")
++            self.mj_model = mujoco.MjModel.from_xml_path(f"{_mjcf_dir}/bhl_biped_scene.xml")
+ 
+         self.mj_data = mujoco.MjData(self.mj_model)
+         self.mj_model.opt.timestep = self.cfg.physics_dt
