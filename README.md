@@ -71,6 +71,7 @@
 
 - 문의 및 제안: [Issues](https://github.com/SCPS-LAB-koreatechU/Berkeley-humanoid-lite/issues)
 - jeong510@koreatech.ac.kr
+- instagram : @hello_robotics
 ---
 
 <div align="center">
