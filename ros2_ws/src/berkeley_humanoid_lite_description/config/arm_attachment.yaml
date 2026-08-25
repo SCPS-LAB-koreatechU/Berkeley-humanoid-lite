@@ -29,29 +29,53 @@
 # the legs just stop being drawn.
 include_legs: false
 
-# ============================ STILL A GUESS ============================
-# The mount below is the one transform nobody has measured: where the V1
-# forearm bolts onto the humanoid's elbow_roll. No such adapter part exists in
-# either CAD, so this is the piece to dial in.
+# ======================== DESIGNED, NOT YET BUILT ========================
+# The mount is no longer a guess: an adapter part now exists
+# (meshes_adapter/bhl_v1_forearm_adapter.stl, printable STL in mm) and the
+# transform below is read off its design.  Measured from the repo's own
+# meshes (2026-08-25):
+#
+#   elbow_roll output:  D10.0 x 10 mm hub proud of the flange plane, and the
+#                       stock hand's 6 x D3.4 bolt pattern on a D36.0 circle
+#                       (angles 30 + 60k deg) centred on the roll axis
+#   V1 forearm cuff:    annular ring OD 84.0 / ID 70.0, face at link z = 0
+#
+# The adapter stacks: 8 mm base plate (stock bolt pattern, D10.6 hub bore),
+# 4 mm end-stop floor at D84, then a 12 mm collar at OD 69.2 that slides
+# into the cuff.  The shell face therefore seats 12 mm off the flange plane:
+# that is mount.xyz's z.  Roll is fixed by bolt clocking; the 60-degree
+# pattern lets the whole hand re-clock in 60-degree steps at assembly, and
+# the radial screws allow any angle, so build it at zero.
+#
+# After assembling the real arm, verify with the tuning model as before:
 #
 #   python3 generate_urdf.py
 #   ros2 launch berkeley_humanoid_lite_description display.launch.py model:=tuning
 #   ros2 run berkeley_humanoid_lite_description read_mount.py --watch
 #
 # Slider values are the URDF origin directly -- paste them back over mount.right.
-# =======================================================================
-#
-# Default reasoning: the stock hand body sat at z = +0.054 in the elbow_roll
-# frame, so +Z is the distal direction, and the V1 forearm also runs along its
-# own +Z (the first wrist joint is at z = 0.203). Identity therefore already
-# points the forearm the right way. Standoff and roll about that axis do not.
+# =========================================================================
 mount:
   right:
-    xyz: [0.0, 0.0, 0.0]
+    xyz: [0.0, 0.0, 0.012]
     rpy: [0.0, 0.0, 0.0]
   # `mirror` derives the left mount from the right by negating y and the
   # roll/yaw components. Replace with explicit xyz/rpy if the sides differ.
   left: mirror
+
+  # The printed part between the elbow_roll flange and the V1 forearm cuff.
+  # Mesh is authored in mm in the elbow_roll frame; generate_urdf.py hangs it
+  # on the arm_*_mount link with the inverse mount transform, so re-tuning the
+  # mount moves the forearm, never the printed part.  The part is mirror
+  # symmetric across xz, so both sides share one STL.  Mass is the solid-PLA
+  # volume (41 cm3) at 1240 kg/m3 -- weigh the finished print and correct.
+  adapter:
+    mesh: package://berkeley_humanoid_lite_description/meshes_adapter/bhl_v1_forearm_adapter.stl
+    scale: 0.001
+    mass: 0.0508
+    com: [0.0, 0.0, 0.01069]          # [m], elbow_roll frame
+    inertia: [2.22437e-05, 2.22437e-05, 4.11132e-05, 0.0, 0.0, 0.0]
+    # [ixx, iyy, izz, ixy, ixz, iyz] kg m2, about the com, elbow_roll axes
 
 wrist:
   # false welds the hand straight to the mount (the DexHand V2 arrangement).

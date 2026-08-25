@@ -771,6 +771,65 @@ def graft_v2_digits(robot, side, config, dexhand, mounts) -> None:
             robot.append(copy.deepcopy(material))
 
 
+def attach_adapter(robot, side, config, mount, link_name=None,
+                   visual_only=False) -> None:
+    """Give the mount link the printed adapter's geometry and mass.
+
+    The adapter is bolted to the elbow_roll flange, so its mesh is authored in
+    the elbow_roll frame (mm).  The mount link sits at `mount` relative to that
+    frame, so the geometry origin is the INVERSE of the mount transform:
+    re-tuning the mount moves the forearm, never the printed part.
+
+    With `link_name`/`visual_only` (the tuning model) the mesh is hung on the
+    elbow link itself at identity, as a pure visual to align the cuff against.
+    """
+    adapter = config["mount"].get("adapter")
+    if not adapter:
+        return
+    name = link_name or f"arm_{side}_mount"
+    link = robot.find(f"link[@name='{name}']")
+    if link is None:
+        raise SystemExit(f"adapter target link missing: {name}")
+
+    if mount is None:
+        origin_xyz, origin_rpy = [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]
+        rot_inv = np.eye(3)
+        t_inv = np.zeros(3)
+    else:
+        rot = rotation_from_rpy(mount["rpy"])
+        t = np.asarray([float(v) for v in mount["xyz"]])
+        rot_inv = rot.T
+        t_inv = -rot_inv @ t
+        origin_xyz = [float(v) for v in t_inv]
+        origin_rpy = rpy_from_rotation(rot_inv)
+
+    scale = float(adapter.get("scale", 1.0))
+    tags = ("visual",) if visual_only else ("visual", "collision")
+    for tag in tags:
+        element = ET.SubElement(link, tag)
+        ET.SubElement(element, "origin", {
+            "xyz": as_text(origin_xyz), "rpy": as_text(origin_rpy)})
+        geometry = ET.SubElement(element, "geometry")
+        ET.SubElement(geometry, "mesh", {
+            "filename": adapter["mesh"], "scale": as_text([scale] * 3)})
+        if tag == "visual":
+            material = ET.SubElement(
+                element, "material", {"name": f"arm_{side}_adapter_material"})
+            ET.SubElement(material, "color", {"rgba": "0.35 0.35 0.38 1"})
+
+    if visual_only:
+        return
+    inertial = ET.SubElement(link, "inertial")
+    com = rot_inv @ np.asarray([float(v) for v in adapter["com"]]) + t_inv
+    ET.SubElement(inertial, "origin", {
+        "xyz": as_text([float(v) for v in com]), "rpy": as_text(origin_rpy)})
+    ET.SubElement(inertial, "mass", {"value": f"{float(adapter['mass']):.9g}"})
+    ixx, iyy, izz, ixy, ixz, iyz = (float(v) for v in adapter["inertia"])
+    ET.SubElement(inertial, "inertia", {
+        "ixx": f"{ixx:.9g}", "iyy": f"{iyy:.9g}", "izz": f"{izz:.9g}",
+        "ixy": f"{ixy:.9g}", "ixz": f"{ixz:.9g}", "iyz": f"{iyz:.9g}"})
+
+
 def attach_arm(robot, side, config, dexhand, tunable=False):
     """Strip the stock hand and build elbow -> mount -> wrist -> hand."""
     strip_stock_hand(robot, side)
@@ -779,10 +838,13 @@ def attach_arm(robot, side, config, dexhand, tunable=False):
 
     if tunable:
         parent = add_tunable_mount(robot, side, mount, parent)
+        attach_adapter(robot, side, config, None, link_name=ELBOW[side],
+                       visual_only=True)
     else:
         child = f"arm_{side}_mount"
         add_frame(robot, child)
         add_joint(robot, f"arm_{side}_forearm_mount", "fixed", parent, child, mount)
+        attach_adapter(robot, side, config, mount)
         parent = child
 
     parent, mounts = build_wrist_chain(robot, side, config, parent)

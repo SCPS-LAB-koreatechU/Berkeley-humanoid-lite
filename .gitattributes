@@ -16,3 +16,7 @@
 *.hdr filter=lfs diff=lfs merge=lfs -text
 *.pt filter=lfs diff=lfs merge=lfs -text
 *.jit filter=lfs diff=lfs merge=lfs -text
+
+# large regenerable binaries from the Blender URDF/USD pipeline
+*.usdc filter=lfs diff=lfs merge=lfs -text
+*.blend filter=lfs diff=lfs merge=lfs -text
