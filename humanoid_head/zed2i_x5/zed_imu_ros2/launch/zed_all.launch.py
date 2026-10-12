@@ -21,6 +21,8 @@ def generate_launch_description():
         PythonLaunchDescriptionSource(os.path.join(zed_cam_share, 'launch', 'zed_cam_node.launch.py')),
         launch_arguments={
             'resolution': LaunchConfiguration('resolution'),
+            # bgr8 instead of nv12 so rqt_image_view / cv_bridge can display it
+            'zed_pub_bgr': LaunchConfiguration('pub_bgr'),
             # upstream default is the ZED mini calibration
             'stereo_calib_file_path': os.path.join(zed_cam_share, 'config', 'stereo_8_zed_2i.yaml'),
         }.items(),
@@ -38,6 +40,7 @@ def generate_launch_description():
 
     return LaunchDescription([
         DeclareLaunchArgument('resolution', default_value='720p'),
+        DeclareLaunchArgument('pub_bgr', default_value='false'),
         DeclareLaunchArgument('imu_delay', default_value='5.0'),
         DeclareLaunchArgument('reset', default_value='true'),
         reset,

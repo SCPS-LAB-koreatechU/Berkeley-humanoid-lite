@@ -74,6 +74,7 @@ ros2 launch zed_imu_ros2 zed_imu.launch.py        # IMU만
 | 인자 | 기본값 | 설명 |
 |---|---|---|
 | `resolution` | `720p` | 영상 해상도 |
+| `pub_bgr` | `false` | `true`면 영상을 `bgr8`로 퍼블리시 (rqt에서 보기용, 약 4.4 Hz로 느려짐) |
 | `imu_delay` | `5.0` | 영상 노드 시작 후 IMU 노드를 띄우기까지 대기 시간(초) |
 | `reset` | `true` | 시작 전에 카메라 MCU 리셋 (아래 트러블슈팅 참고) |
 
@@ -84,6 +85,7 @@ ros2 launch zed_imu_ros2 zed_imu.launch.py        # IMU만
 | `serial_number` | `-1` | `-1`이면 처음 찾은 ZED 사용 |
 | `frame_id` | `zed_imu_link` | 메시지 frame |
 | `publish_aux` | `true` | 자력계/기압/온도/습도 퍼블리시 |
+| `reliable_qos` | `true` | reliable QoS (rqt 등 reliable 구독자와 호환). `false`면 best effort |
 | `gyro_bias_calib_sec` | `0.0` | `>0`이면 시작할 때 N초 동안 자이로 바이어스를 측정해서 뺌 (**카메라 정지 상태 필수**) |
 
 ## 📡 토픽 및 실측 주기
@@ -104,6 +106,12 @@ ros2 launch zed_imu_ros2 zed_imu.launch.py        # IMU만
 - 정지 상태 IMU 노이즈: 가속도 표준편차 약 0.009 m/s², 자이로 약 0.08 °/s, 자이로 Y축 바이어스 약 0.3 °/s
 
 ## 🔧 트러블슈팅 / 알려진 이슈
+
+- **rqt Image View에서 `Unrecognized image encoding [nv12]`**: 기본 영상은 NV12라서 rqt/cv_bridge가 표시하지 못합니다. 영상을 눈으로 확인할 때는 다음처럼 실행하세요(대신 약 4.4 Hz로 느려집니다).
+  ```bash
+  ros2 launch zed_imu_ros2 zed_all.launch.py pub_bgr:=true
+  ```
+- **rqt에서 `offering incompatible QoS ... RELIABILITY`**: best effort 퍼블리셔는 reliable 구독자(rqt 등)와 연결되지 않습니다. 그래서 `zed_imu_node`는 기본값이 reliable입니다(`reliable_qos: true`).
 
 - **`serial_num error`로 영상 노드가 죽음, 또는 프레임이 안 들어옴**
   `hobot_zed_cam`이 종료될 때 비정상 종료(abort)하면서 USB3 영상 링크가 멈추는 경우가 있습니다(`dmesg`에 `status (-71)`). 이후 실행은 계속 실패합니다.

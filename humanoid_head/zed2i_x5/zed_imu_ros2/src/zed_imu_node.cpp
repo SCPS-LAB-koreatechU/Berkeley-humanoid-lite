@@ -46,7 +46,10 @@ public:
     RCLCPP_INFO(get_logger(), "Connected to ZED sn %d, firmware %u.%u",
                 sens_->getSerialNumber(), fw_maj, fw_min);
 
-    auto qos = rclcpp::SensorDataQoS();
+    // Reliable by default: compatible with both reliable (rqt, ros2 topic echo) and best-effort
+    // subscribers. Best-effort publishers are invisible to reliable subscribers.
+    auto qos = rclcpp::QoS(rclcpp::KeepLast(10));
+    if (!declare_parameter<bool>("reliable_qos", true)) qos.best_effort();
     imu_pub_ = create_publisher<sensor_msgs::msg::Imu>("imu/data_raw", qos);
     if (publish_aux_) {
       mag_pub_ = create_publisher<sensor_msgs::msg::MagneticField>("imu/mag", qos);
