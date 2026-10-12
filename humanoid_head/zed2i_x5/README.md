@@ -17,8 +17,10 @@ humanoid_head/zed2i_x5/
 ├── zed_imu_ros2/              # ROS 2 패키지 (ament_cmake)
 │   ├── src/zed_imu_node.cpp   # IMU + 보조 센서 퍼블리셔
 │   ├── src/zed_reset.cpp      # 카메라 MCU 리셋 (영상 링크 복구용)
+│   ├── src/zed_mono_node.cpp  # 왼쪽 카메라만 UVC에서 직접 퍼블리시 (모노)
 │   ├── launch/zed_imu.launch.py   # IMU만
 │   ├── launch/zed_all.launch.py   # 리셋 → 영상 → IMU (권장)
+│   ├── launch/zed_mono.launch.py  # 왼쪽 모노 카메라
 │   └── config/zed_imu.yaml
 ├── udev/99-slabs.rules        # ZED USB 권한 규칙
 └── tools/measure_rates.py     # 토픽 주기 측정 도구
@@ -88,13 +90,39 @@ ros2 launch zed_imu_ros2 zed_imu.launch.py        # IMU만
 | `reliable_qos` | `true` | reliable QoS (rqt 등 reliable 구독자와 호환). `false`면 best effort |
 | `gyro_bias_calib_sec` | `0.0` | `>0`이면 시작할 때 N초 동안 자이로 바이어스를 측정해서 뺌 (**카메라 정지 상태 필수**) |
 
+## 📷 모노 카메라 (왼쪽만)
+
+`hobot_zed_cam`은 좌/우를 합친 영상만 퍼블리시합니다. 왼쪽 카메라만 필요하면 `zed_mono_node`를 쓰세요. UVC(`/dev/video0`)에서 직접 받아 왼쪽 절반만 퍼블리시합니다(`hobot_zed_cam`과 동시에 사용할 수 없음).
+
+```bash
+ros2 launch zed_imu_ros2 zed_mono.launch.py resolution:=hd720 fps:=30 encoding:=bgr8
+# -> /zed/left/image_raw
+```
+
+| 인자 | 기본값 | 값 |
+|---|---|---|
+| `resolution` | `hd720` | `vga`(672×376) / `hd720`(1280×720) / `hd1080`(1920×1080) / `hd2k` |
+| `fps` | `30` | 카메라 FPS (vga 최대 100, hd720 최대 60, hd1080 최대 30) |
+| `encoding` | `bgr8` | `bgr8`(rqt에서 바로 보임) / `yuv422_yuy2`(색 변환 없음, CPU 적음) |
+
+실측 (`ROS_LOCALHOST_ONLY=1`, 구독 측에서 측정):
+
+| 모드 | 수신 주기 | CPU |
+|---|---|---|
+| vga @30, bgr8 | 30.0 Hz | 29% |
+| vga @100, bgr8 | 99.5 Hz | 70% |
+| hd720 @30, bgr8 | 29.9 Hz | 64% |
+| hd720 @60, bgr8 | 49.3 Hz | 111% |
+| hd720 @60, yuv422_yuy2 | 52.1 Hz | 46% |
+| hd1080 @30, bgr8 | 20.6 Hz | 101% |
+
 ## 📡 토픽 및 실측 주기
 
 `tools/measure_rates.py`로 측정했습니다(영상과 IMU 동시 실행, 2026-10-12).
 
 | 토픽 | 타입 | 실측 |
 |---|---|---|
-| `/image_combine_raw` | `sensor_msgs/Image` (NV12, 1280×1440, 좌/우를 위아래로 합침) | 약 9.5 Hz |
+| `/image_combine_raw` | `sensor_msgs/Image` (NV12, 1280×1440, 좌/우를 위아래로 합침) | 약 9.5 Hz (`ROS_LOCALHOST_ONLY=1`이면 약 14 Hz) |
 | `/zed/imu/data_raw` | `sensor_msgs/Imu` (m/s², rad/s, orientation 없음) | 약 370–390 Hz |
 | `/zed/imu/mag` | `sensor_msgs/MagneticField` (T) | 50 Hz |
 | `/zed/atm_press` | `sensor_msgs/FluidPressure` (Pa) | 25 Hz |
@@ -106,6 +134,12 @@ ros2 launch zed_imu_ros2 zed_imu.launch.py        # IMU만
 - 정지 상태 IMU 노이즈: 가속도 표준편차 약 0.009 m/s², 자이로 약 0.08 °/s, 자이로 Y축 바이어스 약 0.3 °/s
 
 ## 🔧 트러블슈팅 / 알려진 이슈
+
+- **⚠️ 같은 네트워크의 다른 PC가 영상 토픽을 구독하면 FPS가 크게 떨어짐**: 영상이 네트워크로도 전송되기 때문입니다. 실제로 연구실의 다른 PC(`so101_desktop`)가 ZED 토픽을 구독하고 있어서, `zed_mono_node`의 HD720 주기가 약 10 Hz까지 떨어졌습니다. `ros2 topic info -v <토픽>`으로 구독자를 확인하고, X5 안에서만 쓸 때는 다음 중 하나로 분리하세요.
+  ```bash
+  export ROS_LOCALHOST_ONLY=1      # 또는
+  export ROS_DOMAIN_ID=<다른 번호>
+  ```
 
 - **rqt Image View에서 `Unrecognized image encoding [nv12]`**: 기본 영상은 NV12라서 rqt/cv_bridge가 표시하지 못합니다. 영상을 눈으로 확인할 때는 다음처럼 실행하세요(대신 약 4.4 Hz로 느려집니다).
   ```bash

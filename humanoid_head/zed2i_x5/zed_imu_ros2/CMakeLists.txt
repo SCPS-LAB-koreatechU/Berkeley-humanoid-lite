@@ -5,6 +5,7 @@ set(CMAKE_CXX_STANDARD 17)
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(sensor_msgs REQUIRED)
+find_package(OpenCV REQUIRED COMPONENTS core imgproc videoio)
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(HIDAPI REQUIRED hidapi-libusb)
 
@@ -26,6 +27,10 @@ target_include_directories(zed_reset PRIVATE ${ZED_OC_DIR}/include ${HIDAPI_INCL
 target_link_libraries(zed_reset ${ZED_OC_LIB} ${HIDAPI_LIBRARIES})
 set_target_properties(zed_reset PROPERTIES INSTALL_RPATH "${ZED_OC_DIR}/build")
 
-install(TARGETS zed_imu_node zed_reset DESTINATION lib/${PROJECT_NAME})
+add_executable(zed_mono_node src/zed_mono_node.cpp)
+target_link_libraries(zed_mono_node ${OpenCV_LIBS})
+ament_target_dependencies(zed_mono_node rclcpp sensor_msgs)
+
+install(TARGETS zed_imu_node zed_reset zed_mono_node DESTINATION lib/${PROJECT_NAME})
 install(DIRECTORY launch config DESTINATION share/${PROJECT_NAME})
 ament_package()
