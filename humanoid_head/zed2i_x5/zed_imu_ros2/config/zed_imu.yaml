@@ -1,0 +1,6 @@
+/**:
+  ros__parameters:
+    serial_number: -1            # -1 = first ZED found
+    frame_id: zed_imu_link
+    publish_aux: true            # magnetometer / pressure / temperature / humidity
+    gyro_bias_calib_sec: 0.0     # >0: average gyro for N s at startup (camera must be still)

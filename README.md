@@ -46,6 +46,10 @@
 3. 실행/테스트  
    - 프로젝트 실행 방법 및 테스트 절차를 여기에 추가
 
+## 🎥 Humanoid Head (ZED 2i)
+
+- [`humanoid_head/zed2i_x5`](./humanoid_head/zed2i_x5/README.md): RDK X5에서 ZED SDK 없이 ZED 2i 영상 + IMU를 ROS 2 토픽으로 퍼블리시
+
 ## 🛠️ 기술 스택 (예시)
 
 ![C++](https://img.shields.io/badge/C%2B%2B-FF7A50?style=for-the-badge&logo=cplusplus&logoColor=white)
