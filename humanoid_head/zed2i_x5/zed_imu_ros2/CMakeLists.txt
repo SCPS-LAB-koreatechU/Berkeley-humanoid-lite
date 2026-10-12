@@ -1,0 +1,36 @@
+cmake_minimum_required(VERSION 3.8)
+project(zed_imu_ros2)
+
+set(CMAKE_CXX_STANDARD 17)
+find_package(ament_cmake REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(sensor_msgs REQUIRED)
+find_package(OpenCV REQUIRED COMPONENTS core imgproc videoio)
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(HIDAPI REQUIRED hidapi-libusb)
+
+# zed-open-capture is built in-tree (not installed system-wide)
+set(ZED_OC_DIR "$ENV{HOME}/bhl/third_party/zed-open-capture" CACHE PATH "zed-open-capture source dir")
+set(ZED_OC_LIB "${ZED_OC_DIR}/build/libzed_open_capture.so")
+
+add_executable(zed_imu_node src/zed_imu_node.cpp)
+# Must match the defines libzed_open_capture was built with (they change SensorCapture layout)
+target_compile_definitions(zed_imu_node PRIVATE SENSORS_MOD_AVAILABLE VIDEO_MOD_AVAILABLE)
+target_include_directories(zed_imu_node PRIVATE ${ZED_OC_DIR}/include ${HIDAPI_INCLUDE_DIRS})
+target_link_libraries(zed_imu_node ${ZED_OC_LIB} ${HIDAPI_LIBRARIES})
+set_target_properties(zed_imu_node PROPERTIES INSTALL_RPATH "${ZED_OC_DIR}/build")
+ament_target_dependencies(zed_imu_node rclcpp sensor_msgs)
+
+add_executable(zed_reset src/zed_reset.cpp)
+target_compile_definitions(zed_reset PRIVATE SENSORS_MOD_AVAILABLE VIDEO_MOD_AVAILABLE)
+target_include_directories(zed_reset PRIVATE ${ZED_OC_DIR}/include ${HIDAPI_INCLUDE_DIRS})
+target_link_libraries(zed_reset ${ZED_OC_LIB} ${HIDAPI_LIBRARIES})
+set_target_properties(zed_reset PROPERTIES INSTALL_RPATH "${ZED_OC_DIR}/build")
+
+add_executable(zed_mono_node src/zed_mono_node.cpp)
+target_link_libraries(zed_mono_node ${OpenCV_LIBS})
+ament_target_dependencies(zed_mono_node rclcpp sensor_msgs)
+
+install(TARGETS zed_imu_node zed_reset zed_mono_node DESTINATION lib/${PROJECT_NAME})
+install(DIRECTORY launch config DESTINATION share/${PROJECT_NAME})
+ament_package()
