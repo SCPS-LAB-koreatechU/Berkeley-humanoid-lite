@@ -29,6 +29,84 @@
 # the legs just stop being drawn.
 include_legs: false
 
+# ============================ HEAD (ZED 2i) ================================
+# The head is the lab's own part (cad/head_zed2i_mount_source.blend): a printed
+# bracket that bolts to the torso's top front 2020 rail and holds a pan servo,
+# a 3 mm lid over the servo, and a ZED 2i screwed onto the servo horn through
+# its 1/4" thread.  Meshes are exported from that file into meshes_head/ (mm):
+# bracket, lid and servo in the head_mount frame, and a plain 175.25 x 30.25 x
+# 43.10 mm envelope for the camera, centred on zed_camera_center.
+#
+# head_mount frame = the bracket's datum: the back face of its wings, the
+# centre of the 4 x M4 counterbored holes, the slot centre.  Placement as built
+# (2026-10-15): wings on the INNER face of the FRONT top rail, bracket centred
+# left-right.  Measured from the torso mesh, that face is x = 50 mm and the
+# rail spans z 810-830 mm, slot centre 820; the wings are exactly 20 mm tall,
+# so they sit flush with the rail.  The bracket faces into the frame, hence
+# yaw pi.  T-nuts slide, so y is free: a sideways shift goes in mount.xyz y.
+#
+# The pan axis is the servo's output axis, through the centre of the top
+# horn.  The horn sits at one end of the servo body, so with the bracket
+# centred the axis is 9.8 mm right of the centreline (base y = -9.8 mm).
+# yaw.origin rpy turns head_pan back to the base orientation, so q = 0 looks
+# straight ahead (+x) and positive q turns the head to the robot's left.
+#
+# Camera frames follow Stereolabs' zed_macro.urdf.xacro for zed2i, so TF from
+# the ZED wrapper lines up: zed_camera_link is the 1/4" mount point (here the
+# horn top), zed_camera_center is 15 mm above it, the left/right camera frames
+# are 10 mm behind the centre at +/-60 mm, each with an optical frame.
+#
+# NOT MEASURED -- replace when known:
+#   - servo model and mass: 60 g placeholder spread over its body envelope
+#   - yaw limits, effort and velocity: placeholders for a standard servo
+#   - zed_imu_link: put at zed_camera_center with camera axes.  The real IMU
+#     offset and rotation are per-unit calibration (ZED SDK
+#     camera_imu_transform); zed_imu_ros2 publishes raw sensor axes.
+#   - bracket and lid mass: solid PLA (1240 kg/m3); a print weighs less.
+head:
+  enabled: true
+  parent: base
+  mount:
+    xyz: [0.050, 0.0, 0.820]
+    rpy: [0.0, 0.0, 3.141592653589793]
+  # Every mesh below is authored in mm in the head_mount frame and is used for
+  # both visual and collision.  The inertial is the three parts combined:
+  # bracket 83.8 g + lid 6.7 g (solid PLA) + servo 60 g (placeholder).
+  parts:
+    - mesh: package://berkeley_humanoid_lite_description/meshes_head/head_bracket.stl
+      rgba: [0.35, 0.35, 0.38, 1.0]
+    - mesh: package://berkeley_humanoid_lite_description/meshes_head/head_plate.stl
+      rgba: [0.35, 0.35, 0.38, 1.0]
+    - mesh: package://berkeley_humanoid_lite_description/meshes_head/head_servo.stl
+      rgba: [0.10, 0.10, 0.10, 1.0]
+  scale: 0.001
+  mass: 0.15045
+  com: [0.020672, -0.000452, 0.001952]          # [m], head_mount frame
+  inertia: [8.12194e-05, 4.69098e-05, 8.11333e-05, 9.40267e-08, 1.46784e-07, 8.95427e-08]
+  # [ixx, iyy, izz, ixy, ixz, iyz] kg m2, about the com, head_mount axes
+  yaw:
+    joint: head_yaw
+    origin:                                      # horn top centre, head_mount frame
+      xyz: [0.0247793, 0.0098105, 0.0289726]
+      rpy: [0.0, 0.0, 3.141592653589793]
+    axis: [0.0, 0.0, 1.0]
+    limits: [-1.5708, 1.5708]                    # [rad]
+    effort: 1.5                                  # [N m]
+    velocity: 5.0                                # [rad/s]
+  camera:
+    prefix: zed                                  # zed_camera_link, zed_left_camera_frame, ...
+    mount:                                       # zed_camera_link on head_pan
+      xyz: [0.0, 0.0, 0.0]
+      rpy: [0.0, 0.0, 0.0]
+    height: 0.03                                 # camera_link -> camera_center (zed2i)
+    baseline: 0.12
+    optical_offset_x: -0.01
+    mesh: package://berkeley_humanoid_lite_description/meshes_head/zed2i_body.stl
+    rgba: [0.12, 0.12, 0.12, 1.0]
+    mass: 0.166                                  # ZED 2i datasheet
+    inertia: [0.000437515, 3.83553e-05, 0.000450554, 0.0, 0.0, 0.0]
+    # uniform box over the envelope, about zed_camera_center
+
 # ===================== COUPLING V2 (lab part, "2ea") ======================
 # The printed part between the elbow_roll flange and the V1 forearm is now the
 # lab's own SolidWorks part: cad/coupling_v2_2ea_original.STL as received,

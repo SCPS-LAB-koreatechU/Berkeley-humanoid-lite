@@ -3,9 +3,10 @@
  "geometry": "visual",
  "units": "mm",
  "frame": "world",
+ "subtree": "world",
  "pose": "all joints 0",
- "parts": 72,
- "triangles": 1155940,
+ "parts": 76,
+ "triangles": 1172078,
  "missing": [],
  "bbox_min": [
   -116.964,
@@ -15,12 +16,12 @@
  "bbox_max": [
   70.0,
   409.162,
-  830.028
+  879.098
  ],
  "size": [
   186.964,
   817.24,
-  776.481
+  825.55
  ],
  "part_list": [
   {
@@ -213,6 +214,70 @@
     5.0,
     -246.933,
     486.428
+   ]
+  },
+  {
+   "link": "head_mount",
+   "visual_index": 0,
+   "source": "ros2_ws/src/berkeley_humanoid_lite_description/meshes_head/head_bracket.stl",
+   "triangles": 1952,
+   "bbox_min": [
+    6.029,
+    -60.0,
+    800.291
+   ],
+   "bbox_max": [
+    50.029,
+    60.0,
+    842.351
+   ]
+  },
+  {
+   "link": "head_mount",
+   "visual_index": 1,
+   "source": "ros2_ws/src/berkeley_humanoid_lite_description/meshes_head/head_plate.stl",
+   "triangles": 664,
+   "bbox_min": [
+    6.029,
+    -25.54,
+    842.598
+   ],
+   "bbox_max": [
+    50.029,
+    25.84,
+    845.598
+   ]
+  },
+  {
+   "link": "head_mount",
+   "visual_index": 2,
+   "source": "ros2_ws/src/berkeley_humanoid_lite_description/meshes_head/head_servo.stl",
+   "triangles": 13510,
+   "bbox_min": [
+    15.12,
+    -19.905,
+    796.673
+   ],
+   "bbox_max": [
+    35.322,
+    20.281,
+    848.973
+   ]
+  },
+  {
+   "link": "zed_camera_center",
+   "visual_index": 0,
+   "source": "ros2_ws/src/berkeley_humanoid_lite_description/meshes_head/zed2i_body.stl",
+   "triangles": 12,
+   "bbox_min": [
+    3.671,
+    -97.436,
+    848.848
+   ],
+   "bbox_max": [
+    46.771,
+    77.815,
+    879.098
    ]
   },
   {

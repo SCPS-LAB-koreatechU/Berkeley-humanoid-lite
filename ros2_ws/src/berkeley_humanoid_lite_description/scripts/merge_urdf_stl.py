@@ -9,6 +9,7 @@ Usage (from anywhere):
     python3 merge_urdf_stl.py --urdf ../urdf/berkeley_humanoid_lite_dexhand.urdf
     python3 merge_urdf_stl.py --units m --out my.stl
     python3 merge_urdf_stl.py --pose pose.json      # {"joint_name": rad, ...}
+    python3 merge_urdf_stl.py --subtree head_mount --frame head_mount   # head only
 
 Outputs <out>.stl (binary) and <out>_parts.json (per-part triangle count,
 world bbox, source file) next to it.
@@ -168,21 +169,44 @@ def main():
     ap.add_argument("--units", choices=["mm", "m"], default="mm")
     ap.add_argument("--pose", default=None, help="json {joint: rad}; default all zero")
     ap.add_argument("--geometry", choices=["visual", "collision"], default="visual")
+    ap.add_argument("--subtree", default=None,
+                    help="only this link and everything below it (e.g. head_mount)")
+    ap.add_argument("--frame", default=None,
+                    help="express the result in this link's frame; default the root")
     a = ap.parse_args()
 
     urdf = os.path.abspath(a.urdf)
     stem = os.path.splitext(os.path.basename(urdf))[0]
-    out = a.out or os.path.join(REPO_ROOT, "export", f"{stem}_zero_pose_{a.units}.stl")
+    tag = f"_{a.subtree}" if a.subtree else ""
+    out = a.out or os.path.join(REPO_ROOT, "export", f"{stem}{tag}_zero_pose_{a.units}.stl")
     os.makedirs(os.path.dirname(os.path.abspath(out)), exist_ok=True)
     pose = json.load(open(a.pose)) if a.pose else {}
     unit = 1000.0 if a.units == "mm" else 1.0
 
     root = ET.parse(urdf).getroot()
     T, root_link = link_transforms(root, pose)
+    frame = a.frame or root_link
+    if frame not in T:
+        sys.exit(f"unknown --frame link: {frame}")
+    to_frame = np.linalg.inv(T[frame])
+    keep = None
+    if a.subtree:
+        if a.subtree not in T:
+            sys.exit(f"unknown --subtree link: {a.subtree}")
+        below = {}
+        for j in root.findall("joint"):
+            below.setdefault(j.find("parent").get("link"), []).append(j.find("child").get("link"))
+        keep, todo = set(), [a.subtree]
+        while todo:
+            name = todo.pop()
+            keep.add(name)
+            todo.extend(below.get(name, []))
 
     all_tris, parts, missing = [], [], []
     for link in root.findall("link"):
         name = link.get("name")
+        if keep is not None and name not in keep:
+            continue
         for k, v in enumerate(link.findall(a.geometry)):
             mesh = v.find("geometry/mesh")
             if mesh is None:
@@ -193,7 +217,7 @@ def main():
                 continue
             s = np.array([float(x) for x in mesh.get("scale", "1 1 1").split()])
             tris = read_stl(path) * s
-            Tw = T[name] @ origin_T(v.find("origin"))
+            Tw = to_frame @ T[name] @ origin_T(v.find("origin"))
             pts = tris.reshape(-1, 3) @ Tw[:3, :3].T + Tw[:3, 3]
             if np.linalg.det(np.diag(s)) < 0:  # mirrored scale flips winding
                 pts = pts.reshape(-1, 3, 3)[:, ::-1].reshape(-1, 3)
@@ -211,14 +235,15 @@ def main():
     if missing:
         print("MISSING meshes:", *missing, sep="\n  ")
     merged = np.concatenate(all_tris)
-    header = f"{stem} {a.geometry} pose={'zero' if not pose else 'custom'} units={a.units} frame={root_link}".encode()
+    header = f"{stem}{tag} {a.geometry} pose={'zero' if not pose else 'custom'} units={a.units} frame={frame}".encode()
     write_stl(out, merged, header)
 
     flat = merged.reshape(-1, 3)
     lo, hi = flat.min(0), flat.max(0)
     summary = {
         "urdf": os.path.relpath(urdf, REPO_ROOT).replace(os.sep, "/"),
-        "geometry": a.geometry, "units": a.units, "frame": root_link,
+        "geometry": a.geometry, "units": a.units, "frame": frame,
+        "subtree": a.subtree or root_link,
         "pose": pose or "all joints 0",
         "parts": len(parts), "triangles": int(len(merged)), "missing": missing,
         "bbox_min": lo.round(3).tolist(), "bbox_max": hi.round(3).tolist(),

@@ -9,6 +9,9 @@ Four models are written to urdf/:
                                        + DexHand v2 fingers (left hand mirrored)
   berkeley_humanoid_lite_tuning.urdf   v1arm with the right mount as 6 sliders
 
+All four carry the ZED 2i head on its pan joint when `head.enabled` is set in
+config/arm_attachment.yaml (see attach_head).
+
 The upstream humanoid file is emitted by onshape-to-robot and is not directly
 usable: mesh paths are written `package://../meshes/foo.stl`, which the ROS
 resource retriever cannot resolve, and the root link `base` is free-floating
@@ -218,6 +221,8 @@ def load_humanoid(config: dict | None = None) -> ET.Element:
 
     if config is not None and not config.get("include_legs", True):
         strip_legs(root)
+    if config is not None and (config.get("head") or {}).get("enabled"):
+        attach_head(root, config)
     return root
 
 
@@ -828,6 +833,101 @@ def attach_adapter(robot, side, config, mount, link_name=None,
     ET.SubElement(inertial, "inertia", {
         "ixx": f"{ixx:.9g}", "iyy": f"{iyy:.9g}", "izz": f"{izz:.9g}",
         "ixy": f"{ixy:.9g}", "ixz": f"{ixz:.9g}", "iyz": f"{iyz:.9g}"})
+
+
+def add_inertial(link: ET.Element, mass, com, inertia) -> None:
+    """Inertial about `com`, axes parallel to the link frame."""
+    inertial = ET.SubElement(link, "inertial")
+    ET.SubElement(inertial, "origin", {"xyz": as_text(com), "rpy": "0 0 0"})
+    ET.SubElement(inertial, "mass", {"value": f"{float(mass):.9g}"})
+    ixx, iyy, izz, ixy, ixz, iyz = (float(v) for v in inertia)
+    ET.SubElement(inertial, "inertia", {
+        "ixx": f"{ixx:.9g}", "iyy": f"{iyy:.9g}", "izz": f"{izz:.9g}",
+        "ixy": f"{ixy:.9g}", "ixz": f"{ixz:.9g}", "iyz": f"{iyz:.9g}"})
+
+
+def add_mesh(link: ET.Element, mesh: str, scale: float, material: str,
+             rgba=None) -> None:
+    """The same mesh as visual and collision, at the link origin."""
+    for tag in ("visual", "collision"):
+        element = ET.SubElement(link, tag)
+        ET.SubElement(element, "origin", {"xyz": "0 0 0", "rpy": "0 0 0"})
+        geometry = ET.SubElement(element, "geometry")
+        ET.SubElement(geometry, "mesh", {
+            "filename": mesh, "scale": as_text([scale] * 3)})
+        if tag == "visual" and rgba is not None:
+            colour = ET.SubElement(element, "material", {"name": material})
+            ET.SubElement(colour, "color", {"rgba": as_text(rgba)})
+
+
+def attach_head(robot: ET.Element, config: dict) -> None:
+    """Bolt the ZED 2i head (pan servo bracket + camera) onto the torso.
+
+    Every number comes from the `head` section of arm_attachment.yaml, which
+    also says where each was measured.  The chain is
+
+        base --fixed--> head_mount --head_yaw--> head_pan --fixed--> zed_camera_link
+          --> zed_camera_center --> zed_{left,right}_camera_frame
+                                      --> zed_{left,right}_camera_frame_optical
+                                --> zed_imu_link
+
+    The camera frames copy Stereolabs' zed_macro.urdf.xacro (zed2i), so the TF
+    tree the ZED wrapper expects hangs off head_pan unchanged.
+    """
+    head = config["head"]
+    parent = head.get("parent", "base")
+    if robot.find(f"link[@name='{parent}']") is None:
+        raise SystemExit(f"head parent link missing: {parent}")
+    scale = float(head.get("scale", 1.0))
+    still = [0.0, 0.0, 0.0]
+
+    mount = ET.SubElement(robot, "link", {"name": "head_mount"})
+    add_inertial(mount, head["mass"], head["com"], head["inertia"])
+    for index, part in enumerate(head["parts"]):
+        add_mesh(mount, part["mesh"], scale, f"head_part_{index}_material",
+                 part.get("rgba"))
+    add_joint(robot, "head_mount_joint", "fixed", parent, "head_mount",
+              head["mount"])
+
+    yaw = head["yaw"]
+    add_frame(robot, "head_pan")
+    add_joint(robot, yaw.get("joint", "head_yaw"), "revolute", "head_mount",
+              "head_pan", yaw["origin"], yaw["axis"], yaw["limits"],
+              effort=yaw.get("effort", 5), velocity=yaw.get("velocity", 3))
+
+    camera = head.get("camera")
+    if not camera:
+        return
+    p = camera.get("prefix", "zed")
+    add_frame(robot, f"{p}_camera_link")
+    add_joint(robot, f"{p}_camera_joint", "fixed", "head_pan",
+              f"{p}_camera_link", camera["mount"])
+
+    centre = ET.SubElement(robot, "link", {"name": f"{p}_camera_center"})
+    add_inertial(centre, camera["mass"], still, camera["inertia"])
+    add_mesh(centre, camera["mesh"], scale, f"{p}_camera_material",
+             camera.get("rgba"))
+    add_joint(robot, f"{p}_camera_center_joint", "fixed", f"{p}_camera_link",
+              f"{p}_camera_center",
+              {"xyz": [0.0, 0.0, float(camera["height"]) / 2.0], "rpy": still})
+
+    half = float(camera["baseline"]) / 2.0
+    for side, sign in (("left", 1.0), ("right", -1.0)):
+        frame = f"{p}_{side}_camera_frame"
+        add_frame(robot, frame)
+        add_joint(robot, f"{p}_{side}_camera_joint", "fixed",
+                  f"{p}_camera_center", frame,
+                  {"xyz": [float(camera["optical_offset_x"]), sign * half, 0.0],
+                   "rpy": still})
+        add_frame(robot, f"{frame}_optical")
+        add_joint(robot, f"{p}_{side}_camera_optical_joint", "fixed", frame,
+                  f"{frame}_optical",
+                  {"xyz": still, "rpy": [-np.pi / 2, 0.0, -np.pi / 2]})
+
+    # Where zed_imu_ros2 publishes. Placeholder pose: see the yaml.
+    add_frame(robot, f"{p}_imu_link")
+    add_joint(robot, f"{p}_imu_joint", "fixed", f"{p}_camera_center",
+              f"{p}_imu_link", {"xyz": still, "rpy": still})
 
 
 def attach_arm(robot, side, config, dexhand, tunable=False):

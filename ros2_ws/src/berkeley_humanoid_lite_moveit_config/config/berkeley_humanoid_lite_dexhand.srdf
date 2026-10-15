@@ -436,8 +436,13 @@
     <disable_collisions link1="arm_left_elbow_roll" link2="Thumb_Prox_KC_1" reason="Never in collision"/>
     <disable_collisions link1="arm_left_elbow_roll" link2="Thumb_Tip_1" reason="Never in collision"/>
     <disable_collisions link1="arm_left_elbow_roll" link2="arm_right_elbow_roll" reason="Never in collision"/>
+    <disable_collisions link1="arm_left_elbow_roll" link2="arm_right_mount" reason="Never in collision"/>
     <disable_collisions link1="arm_left_elbow_roll" link2="arm_right_shoulder_yaw" reason="Never in collision"/>
     <disable_collisions link1="arm_left_elbow_roll" link2="base_link" reason="Never in collision"/>
+    <disable_collisions link1="arm_left_elbow_roll" link2="head_mount" reason="Never in collision"/>
+    <disable_collisions link1="arm_left_elbow_roll" link2="head_mount" reason="Never in collision"/>
+    <disable_collisions link1="arm_left_elbow_roll" link2="head_mount" reason="Never in collision"/>
+    <disable_collisions link1="arm_left_elbow_roll" link2="zed_camera_center" reason="Never in collision"/>
     <disable_collisions link1="arm_left_shoulder_yaw" link2="Index_Knuckle_1" reason="Never in collision"/>
     <disable_collisions link1="arm_left_shoulder_yaw" link2="Index_Knuckle_Cross_1" reason="Never in collision"/>
     <disable_collisions link1="arm_left_shoulder_yaw" link2="Index_Middle_1" reason="Never in collision"/>
@@ -461,8 +466,13 @@
     <disable_collisions link1="arm_left_shoulder_yaw" link2="Thumb_Tip_1" reason="Never in collision"/>
     <disable_collisions link1="arm_left_shoulder_yaw" link2="arm_left_elbow_roll" reason="Never in collision"/>
     <disable_collisions link1="arm_left_shoulder_yaw" link2="arm_right_elbow_roll" reason="Never in collision"/>
+    <disable_collisions link1="arm_left_shoulder_yaw" link2="arm_right_mount" reason="Never in collision"/>
     <disable_collisions link1="arm_left_shoulder_yaw" link2="arm_right_shoulder_yaw" reason="Never in collision"/>
     <disable_collisions link1="arm_left_shoulder_yaw" link2="base_link" reason="Never in collision"/>
+    <disable_collisions link1="arm_left_shoulder_yaw" link2="head_mount" reason="Never in collision"/>
+    <disable_collisions link1="arm_left_shoulder_yaw" link2="head_mount" reason="Never in collision"/>
+    <disable_collisions link1="arm_left_shoulder_yaw" link2="head_mount" reason="Never in collision"/>
+    <disable_collisions link1="arm_left_shoulder_yaw" link2="zed_camera_center" reason="Never in collision"/>
     <disable_collisions link1="arm_right_elbow_roll" link2="Index_Knuckle_1" reason="Never in collision"/>
     <disable_collisions link1="arm_right_elbow_roll" link2="Index_Knuckle_Cross_1" reason="Never in collision"/>
     <disable_collisions link1="arm_right_elbow_roll" link2="Index_Middle_1" reason="Never in collision"/>
@@ -484,7 +494,34 @@
     <disable_collisions link1="arm_right_elbow_roll" link2="Thumb_Middle_1" reason="Never in collision"/>
     <disable_collisions link1="arm_right_elbow_roll" link2="Thumb_Prox_KC_1" reason="Always in collision"/>
     <disable_collisions link1="arm_right_elbow_roll" link2="Thumb_Tip_1" reason="Never in collision"/>
+    <disable_collisions link1="arm_right_elbow_roll" link2="arm_right_mount" reason="Always in collision"/>
     <disable_collisions link1="arm_right_elbow_roll" link2="base_link" reason="Always in collision"/>
+    <disable_collisions link1="arm_right_elbow_roll" link2="head_mount" reason="Never in collision"/>
+    <disable_collisions link1="arm_right_elbow_roll" link2="head_mount" reason="Never in collision"/>
+    <disable_collisions link1="arm_right_elbow_roll" link2="head_mount" reason="Never in collision"/>
+    <disable_collisions link1="arm_right_elbow_roll" link2="zed_camera_center" reason="Never in collision"/>
+    <disable_collisions link1="arm_right_mount" link2="Index_Knuckle_1" reason="Never in collision"/>
+    <disable_collisions link1="arm_right_mount" link2="Index_Knuckle_Cross_1" reason="Never in collision"/>
+    <disable_collisions link1="arm_right_mount" link2="Index_Middle_1" reason="Never in collision"/>
+    <disable_collisions link1="arm_right_mount" link2="Index_Tip_1" reason="Never in collision"/>
+    <disable_collisions link1="arm_right_mount" link2="Middle_Knuckle_1" reason="Never in collision"/>
+    <disable_collisions link1="arm_right_mount" link2="Middle_Knuckle_Cross_1" reason="Never in collision"/>
+    <disable_collisions link1="arm_right_mount" link2="Middle_Middle_1" reason="Never in collision"/>
+    <disable_collisions link1="arm_right_mount" link2="Midle_Tip_1" reason="Never in collision"/>
+    <disable_collisions link1="arm_right_mount" link2="Pinky_Knuckle_1" reason="Never in collision"/>
+    <disable_collisions link1="arm_right_mount" link2="Pinky_Knuckle_Cross_1" reason="Never in collision"/>
+    <disable_collisions link1="arm_right_mount" link2="Pinky_Middle_1" reason="Never in collision"/>
+    <disable_collisions link1="arm_right_mount" link2="Pinky_Tip_1" reason="Never in collision"/>
+    <disable_collisions link1="arm_right_mount" link2="Ring_Knuckle_1" reason="Never in collision"/>
+    <disable_collisions link1="arm_right_mount" link2="Ring_Knuckle_Cross_1" reason="Never in collision"/>
+    <disable_collisions link1="arm_right_mount" link2="Ring_Middle_1" reason="Never in collision"/>
+    <disable_collisions link1="arm_right_mount" link2="Ring_Tip_1" reason="Never in collision"/>
+    <disable_collisions link1="arm_right_mount" link2="Thumb_Dist_KC_1" reason="Always in collision"/>
+    <disable_collisions link1="arm_right_mount" link2="Thumb_Knuckle_1" reason="Never in collision"/>
+    <disable_collisions link1="arm_right_mount" link2="Thumb_Middle_1" reason="Never in collision"/>
+    <disable_collisions link1="arm_right_mount" link2="Thumb_Prox_KC_1" reason="Always in collision"/>
+    <disable_collisions link1="arm_right_mount" link2="Thumb_Tip_1" reason="Never in collision"/>
+    <disable_collisions link1="arm_right_mount" link2="base_link" reason="Always in collision"/>
     <disable_collisions link1="arm_right_shoulder_yaw" link2="Index_Knuckle_1" reason="Never in collision"/>
     <disable_collisions link1="arm_right_shoulder_yaw" link2="Index_Knuckle_Cross_1" reason="Never in collision"/>
     <disable_collisions link1="arm_right_shoulder_yaw" link2="Index_Middle_1" reason="Never in collision"/>
@@ -507,7 +544,12 @@
     <disable_collisions link1="arm_right_shoulder_yaw" link2="Thumb_Prox_KC_1" reason="Never in collision"/>
     <disable_collisions link1="arm_right_shoulder_yaw" link2="Thumb_Tip_1" reason="Never in collision"/>
     <disable_collisions link1="arm_right_shoulder_yaw" link2="arm_right_elbow_roll" reason="Never in collision"/>
+    <disable_collisions link1="arm_right_shoulder_yaw" link2="arm_right_mount" reason="Never in collision"/>
     <disable_collisions link1="arm_right_shoulder_yaw" link2="base_link" reason="Never in collision"/>
+    <disable_collisions link1="arm_right_shoulder_yaw" link2="head_mount" reason="Never in collision"/>
+    <disable_collisions link1="arm_right_shoulder_yaw" link2="head_mount" reason="Never in collision"/>
+    <disable_collisions link1="arm_right_shoulder_yaw" link2="head_mount" reason="Never in collision"/>
+    <disable_collisions link1="arm_right_shoulder_yaw" link2="zed_camera_center" reason="Never in collision"/>
     <disable_collisions link1="base" link2="Index_Knuckle_1" reason="Never in collision"/>
     <disable_collisions link1="base" link2="Index_Knuckle_Cross_1" reason="Never in collision"/>
     <disable_collisions link1="base" link2="Index_Middle_1" reason="Never in collision"/>
@@ -532,4 +574,103 @@
     <disable_collisions link1="base" link2="arm_left_elbow_roll" reason="Never in collision"/>
     <disable_collisions link1="base" link2="arm_left_shoulder_yaw" reason="Never in collision"/>
     <disable_collisions link1="base" link2="arm_right_shoulder_yaw" reason="Never in collision"/>
+    <disable_collisions link1="base" link2="head_mount" reason="Always in collision"/>
+    <disable_collisions link1="base" link2="head_mount" reason="Always in collision"/>
+    <disable_collisions link1="base" link2="head_mount" reason="Never in collision"/>
+    <disable_collisions link1="base" link2="zed_camera_center" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Index_Knuckle_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Index_Knuckle_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Index_Knuckle_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Index_Knuckle_Cross_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Index_Knuckle_Cross_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Index_Knuckle_Cross_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Index_Middle_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Index_Middle_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Index_Middle_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Index_Tip_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Index_Tip_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Index_Tip_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Middle_Knuckle_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Middle_Knuckle_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Middle_Knuckle_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Middle_Knuckle_Cross_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Middle_Knuckle_Cross_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Middle_Knuckle_Cross_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Middle_Middle_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Middle_Middle_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Middle_Middle_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Midle_Tip_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Midle_Tip_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Midle_Tip_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Pinky_Knuckle_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Pinky_Knuckle_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Pinky_Knuckle_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Pinky_Knuckle_Cross_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Pinky_Knuckle_Cross_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Pinky_Knuckle_Cross_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Pinky_Middle_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Pinky_Middle_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Pinky_Middle_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Pinky_Tip_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Pinky_Tip_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Pinky_Tip_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Ring_Knuckle_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Ring_Knuckle_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Ring_Knuckle_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Ring_Knuckle_Cross_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Ring_Knuckle_Cross_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Ring_Knuckle_Cross_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Ring_Middle_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Ring_Middle_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Ring_Middle_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Ring_Tip_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Ring_Tip_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Ring_Tip_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Thumb_Dist_KC_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Thumb_Dist_KC_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Thumb_Dist_KC_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Thumb_Knuckle_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Thumb_Knuckle_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Thumb_Knuckle_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Thumb_Middle_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Thumb_Middle_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Thumb_Middle_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Thumb_Prox_KC_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Thumb_Prox_KC_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Thumb_Prox_KC_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Thumb_Tip_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Thumb_Tip_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="Thumb_Tip_1" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="arm_right_mount" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="arm_right_mount" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="arm_right_mount" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="base_link" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="base_link" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="base_link" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="zed_camera_center" reason="Always in collision"/>
+    <disable_collisions link1="head_mount" link2="zed_camera_center" reason="Never in collision"/>
+    <disable_collisions link1="head_mount" link2="zed_camera_center" reason="Never in collision"/>
+    <disable_collisions link1="zed_camera_center" link2="Index_Knuckle_1" reason="Never in collision"/>
+    <disable_collisions link1="zed_camera_center" link2="Index_Knuckle_Cross_1" reason="Never in collision"/>
+    <disable_collisions link1="zed_camera_center" link2="Index_Middle_1" reason="Never in collision"/>
+    <disable_collisions link1="zed_camera_center" link2="Index_Tip_1" reason="Never in collision"/>
+    <disable_collisions link1="zed_camera_center" link2="Middle_Knuckle_1" reason="Never in collision"/>
+    <disable_collisions link1="zed_camera_center" link2="Middle_Knuckle_Cross_1" reason="Never in collision"/>
+    <disable_collisions link1="zed_camera_center" link2="Middle_Middle_1" reason="Never in collision"/>
+    <disable_collisions link1="zed_camera_center" link2="Midle_Tip_1" reason="Never in collision"/>
+    <disable_collisions link1="zed_camera_center" link2="Pinky_Knuckle_1" reason="Never in collision"/>
+    <disable_collisions link1="zed_camera_center" link2="Pinky_Knuckle_Cross_1" reason="Never in collision"/>
+    <disable_collisions link1="zed_camera_center" link2="Pinky_Middle_1" reason="Never in collision"/>
+    <disable_collisions link1="zed_camera_center" link2="Pinky_Tip_1" reason="Never in collision"/>
+    <disable_collisions link1="zed_camera_center" link2="Ring_Knuckle_1" reason="Never in collision"/>
+    <disable_collisions link1="zed_camera_center" link2="Ring_Knuckle_Cross_1" reason="Never in collision"/>
+    <disable_collisions link1="zed_camera_center" link2="Ring_Middle_1" reason="Never in collision"/>
+    <disable_collisions link1="zed_camera_center" link2="Ring_Tip_1" reason="Never in collision"/>
+    <disable_collisions link1="zed_camera_center" link2="Thumb_Dist_KC_1" reason="Never in collision"/>
+    <disable_collisions link1="zed_camera_center" link2="Thumb_Knuckle_1" reason="Never in collision"/>
+    <disable_collisions link1="zed_camera_center" link2="Thumb_Middle_1" reason="Never in collision"/>
+    <disable_collisions link1="zed_camera_center" link2="Thumb_Prox_KC_1" reason="Never in collision"/>
+    <disable_collisions link1="zed_camera_center" link2="Thumb_Tip_1" reason="Never in collision"/>
+    <disable_collisions link1="zed_camera_center" link2="arm_right_mount" reason="Never in collision"/>
+    <disable_collisions link1="zed_camera_center" link2="base_link" reason="Never in collision"/>
 </robot>

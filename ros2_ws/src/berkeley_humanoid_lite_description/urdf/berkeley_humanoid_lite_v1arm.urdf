@@ -332,6 +332,134 @@
     <limit effort="20" velocity="15" lower="-0.785398" upper="1.5708" />
     <joint_properties friction="0.1" />
   </joint>
+  <link name="head_mount">
+    <inertial>
+      <origin xyz="0.020672 -0.000452 0.001952" rpy="0 0 0" />
+      <mass value="0.15045" />
+      <inertia ixx="8.12194e-05" iyy="4.69098e-05" izz="8.11333e-05" ixy="9.40267e-08" ixz="1.46784e-07" iyz="8.95427e-08" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://berkeley_humanoid_lite_description/meshes_head/head_bracket.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+      <material name="head_part_0_material">
+        <color rgba="0.35 0.35 0.38 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://berkeley_humanoid_lite_description/meshes_head/head_bracket.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://berkeley_humanoid_lite_description/meshes_head/head_plate.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+      <material name="head_part_1_material">
+        <color rgba="0.35 0.35 0.38 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://berkeley_humanoid_lite_description/meshes_head/head_plate.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://berkeley_humanoid_lite_description/meshes_head/head_servo.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+      <material name="head_part_2_material">
+        <color rgba="0.1 0.1 0.1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://berkeley_humanoid_lite_description/meshes_head/head_servo.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="head_mount_joint" type="fixed">
+    <parent link="base" />
+    <child link="head_mount" />
+    <origin xyz="0.05 0 0.82" rpy="0 0 3.14159265359" />
+  </joint>
+  <link name="head_pan" />
+  <joint name="head_yaw" type="revolute">
+    <parent link="head_mount" />
+    <child link="head_pan" />
+    <origin xyz="0.0247793 0.0098105 0.0289726" rpy="0 0 3.14159265359" />
+    <axis xyz="0 0 1" />
+    <limit lower="-1.5708" upper="1.5708" effort="1.5" velocity="5.0" />
+  </joint>
+  <link name="zed_camera_link" />
+  <joint name="zed_camera_joint" type="fixed">
+    <parent link="head_pan" />
+    <child link="zed_camera_link" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </joint>
+  <link name="zed_camera_center">
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="0.166" />
+      <inertia ixx="0.000437515" iyy="3.83553e-05" izz="0.000450554" ixy="0" ixz="0" iyz="0" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://berkeley_humanoid_lite_description/meshes_head/zed2i_body.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+      <material name="zed_camera_material">
+        <color rgba="0.12 0.12 0.12 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+        <mesh filename="package://berkeley_humanoid_lite_description/meshes_head/zed2i_body.stl" scale="0.001 0.001 0.001" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="zed_camera_center_joint" type="fixed">
+    <parent link="zed_camera_link" />
+    <child link="zed_camera_center" />
+    <origin xyz="0 0 0.015" rpy="0 0 0" />
+  </joint>
+  <link name="zed_left_camera_frame" />
+  <joint name="zed_left_camera_joint" type="fixed">
+    <parent link="zed_camera_center" />
+    <child link="zed_left_camera_frame" />
+    <origin xyz="-0.01 0.06 0" rpy="0 0 0" />
+  </joint>
+  <link name="zed_left_camera_frame_optical" />
+  <joint name="zed_left_camera_optical_joint" type="fixed">
+    <parent link="zed_left_camera_frame" />
+    <child link="zed_left_camera_frame_optical" />
+    <origin xyz="0 0 0" rpy="-1.57079632679 0 -1.57079632679" />
+  </joint>
+  <link name="zed_right_camera_frame" />
+  <joint name="zed_right_camera_joint" type="fixed">
+    <parent link="zed_camera_center" />
+    <child link="zed_right_camera_frame" />
+    <origin xyz="-0.01 -0.06 0" rpy="0 0 0" />
+  </joint>
+  <link name="zed_right_camera_frame_optical" />
+  <joint name="zed_right_camera_optical_joint" type="fixed">
+    <parent link="zed_right_camera_frame" />
+    <child link="zed_right_camera_frame_optical" />
+    <origin xyz="0 0 0" rpy="-1.57079632679 0 -1.57079632679" />
+  </joint>
+  <link name="zed_imu_link" />
+  <joint name="zed_imu_joint" type="fixed">
+    <parent link="zed_camera_center" />
+    <child link="zed_imu_link" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </joint>
   <link name="arm_right_mount">
     <visual>
       <origin xyz="0 0 0.00165" rpy="0 -0 0" />
