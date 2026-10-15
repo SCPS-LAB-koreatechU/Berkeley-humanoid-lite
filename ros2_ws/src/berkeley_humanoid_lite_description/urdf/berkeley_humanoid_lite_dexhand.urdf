@@ -358,30 +358,30 @@
   </joint>
   <link name="arm_right_mount">
     <visual>
-      <origin xyz="0 0 -0.012" rpy="0 -0 0" />
+      <origin xyz="0 0 0.00165" rpy="0 -0 0" />
       <geometry>
-        <mesh filename="package://berkeley_humanoid_lite_description/meshes_adapter/bhl_v1_forearm_adapter.stl" scale="0.001 0.001 0.001" />
+        <mesh filename="package://berkeley_humanoid_lite_description/meshes_adapter/bhl_v1_forearm_coupling_v2.stl" scale="0.001 0.001 0.001" />
       </geometry>
       <material name="arm_right_adapter_material">
         <color rgba="0.35 0.35 0.38 1" />
       </material>
     </visual>
     <collision>
-      <origin xyz="0 0 -0.012" rpy="0 -0 0" />
+      <origin xyz="0 0 0.00165" rpy="0 -0 0" />
       <geometry>
-        <mesh filename="package://berkeley_humanoid_lite_description/meshes_adapter/bhl_v1_forearm_adapter.stl" scale="0.001 0.001 0.001" />
+        <mesh filename="package://berkeley_humanoid_lite_description/meshes_adapter/bhl_v1_forearm_coupling_v2.stl" scale="0.001 0.001 0.001" />
       </geometry>
     </collision>
     <inertial>
-      <origin xyz="0 0 -0.00131" rpy="0 -0 0" />
-      <mass value="0.0508" />
-      <inertia ixx="2.22437e-05" iyy="2.22437e-05" izz="4.11132e-05" ixy="0" ixz="0" iyz="0" />
+      <origin xyz="0 0 0.007352" rpy="0 -0 0" />
+      <mass value="0.0447" />
+      <inertia ixx="1.42718e-05" iyy="1.43386e-05" izz="2.79499e-05" ixy="0" ixz="0" iyz="0" />
     </inertial>
   </link>
   <joint name="arm_right_forearm_mount" type="fixed">
     <parent link="arm_right_elbow_roll" />
     <child link="arm_right_mount" />
-    <origin xyz="0 0 0.012" rpy="0 0 0" />
+    <origin xyz="0 0 -0.00165" rpy="0 0 0" />
   </joint>
   <material name="silver">
     <color rgba="0.700 0.700 0.700 1.000" />

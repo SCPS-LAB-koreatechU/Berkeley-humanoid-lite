@@ -29,23 +29,40 @@
 # the legs just stop being drawn.
 include_legs: false
 
-# ======================== DESIGNED, NOT YET BUILT ========================
-# The mount is no longer a guess: an adapter part now exists
-# (meshes_adapter/bhl_v1_forearm_adapter.stl, printable STL in mm) and the
-# transform below is read off its design.  Measured from the repo's own
-# meshes (2026-08-25):
+# ===================== COUPLING V2 (lab part, "2ea") ======================
+# The printed part between the elbow_roll flange and the V1 forearm is now the
+# lab's own SolidWorks part: cad/coupling_v2_2ea_original.STL as received,
+# and meshes_adapter/bhl_v1_forearm_coupling_v2.stl, the same mesh moved into
+# the elbow_roll frame by (-36, -36, 0) mm.  It replaces the 24 mm collar
+# adapter (meshes_adapter/bhl_v1_forearm_adapter.stl, kept but unused).
 #
-#   elbow_roll output:  D10.0 x 10 mm hub proud of the flange plane, and the
-#                       stock hand's 6 x D3.4 bolt pattern on a D36.0 circle
-#                       (angles 30 + 60k deg) centred on the roll axis
-#   V1 forearm cuff:    annular ring OD 84.0 / ID 70.0, face at link z = 0
+# The part, measured from its mesh (2026-10-15):
+#   D72.0 x 8.5 mm disc on a D43.0 x 1.85 mm spigot, 10.35 mm overall
+#   6 x D3.4 through + D6.0 x 5 mm counterbore from the forearm side, on the
+#     stock D36 bolt circle at 30 + 60k deg -- the stock hand's pattern
+#   2 x D2.5 radial pilots (M3), 5 mm deep, at +/-90 deg (+/-Y), 6.35 mm
+#     above the spigot face
 #
-# The adapter stacks: 8 mm base plate (stock bolt pattern, D10.6 hub bore),
-# 4 mm end-stop floor at D84, then a 12 mm collar at OD 69.2 that slides
-# into the cuff.  The shell face therefore seats 12 mm off the flange plane:
-# that is mount.xyz's z.  Roll is fixed by bolt clocking; the 60-degree
-# pattern lets the whole hand re-clock in 60-degree steps at assembly, and
-# the radial screws allow any angle, so build it at zero.
+# How it seats, measured from the repo's meshes:
+#   elbow side    the spigot face sits on the actuator output ring (D28-D45,
+#                 2.0 mm proud of the housing) where the stock hand's D43 boss
+#                 sat: spigot face = flange plane = elbow_roll z 0.
+#   forearm side  the V1 cuff has a D72 pocket from z 3.5 to 12.5 behind a
+#                 D68 lip.  The disc lives in that pocket (9.0 mm deep vs an
+#                 8.5 mm disc: 0.5 mm axial play).  Hanging load pulls the lip
+#                 onto the disc shoulder (part z 1.85), so the forearm face
+#                 sits 3.5 - 1.85 = 1.65 mm on the elbow side of the flange
+#                 plane: that is mount.xyz's z.  The lip then clears the
+#                 stationary housing face (elbow_roll z -2.0) by 0.35 mm.
+#   radial pilots land at forearm z 8.0 -- drill the cuff there, at +/-Y.
+#
+# Check on the real arm (the meshes cannot tell):
+#   - no centre bore: the URDF's elbow_roll mesh is a D10 x 10 hub that now
+#     sits inside the disc.  If the real output has a hub, the spigot cannot
+#     reach the flange.
+#   - disc OD 72.0 vs pocket ID 71.82-71.96 in the V1 mesh: zero clearance as
+#     drawn; a printed fit needs a few tenths.
+#   - in the mesh the pocket is closed at both ends (D68 lip, D58 shoulder).
 #
 # After assembling the real arm, verify with the tuning model as before:
 #
@@ -57,7 +74,7 @@ include_legs: false
 # =========================================================================
 mount:
   right:
-    xyz: [0.0, 0.0, 0.012]
+    xyz: [0.0, 0.0, -0.00165]
     rpy: [0.0, 0.0, 0.0]
   # `mirror` derives the left mount from the right by negating y and the
   # roll/yaw components. Replace with explicit xyz/rpy if the sides differ.
@@ -68,13 +85,13 @@ mount:
   # on the arm_*_mount link with the inverse mount transform, so re-tuning the
   # mount moves the forearm, never the printed part.  The part is mirror
   # symmetric across xz, so both sides share one STL.  Mass is the solid-PLA
-  # volume (41 cm3) at 1240 kg/m3 -- weigh the finished print and correct.
+  # volume (36.0 cm3) at 1240 kg/m3 -- weigh the finished print and correct.
   adapter:
-    mesh: package://berkeley_humanoid_lite_description/meshes_adapter/bhl_v1_forearm_adapter.stl
+    mesh: package://berkeley_humanoid_lite_description/meshes_adapter/bhl_v1_forearm_coupling_v2.stl
     scale: 0.001
-    mass: 0.0508
-    com: [0.0, 0.0, 0.01069]          # [m], elbow_roll frame
-    inertia: [2.22437e-05, 2.22437e-05, 4.11132e-05, 0.0, 0.0, 0.0]
+    mass: 0.0447
+    com: [0.0, 0.0, 0.005702]         # [m], elbow_roll frame
+    inertia: [1.42718e-05, 1.43386e-05, 2.79499e-05, 0.0, 0.0, 0.0]
     # [ixx, iyy, izz, ixy, ixz, iyz] kg m2, about the com, elbow_roll axes
 
 wrist:
