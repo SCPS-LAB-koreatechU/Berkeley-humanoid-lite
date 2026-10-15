@@ -37,7 +37,3 @@ _build
 
 # duplicate scratch export (canonical copies live in usd/)
 blender/*.usdc
-
-# merged-assembly exports from scripts/merge_urdf_stl.py (large, regenerable;
-# published as release assets instead)
-/export/

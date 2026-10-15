@@ -1,0 +1,1179 @@
+{
+ "urdf": "ros2_ws/src/berkeley_humanoid_lite_description/urdf/berkeley_humanoid_lite_v1arm.urdf",
+ "geometry": "visual",
+ "units": "mm",
+ "frame": "world",
+ "pose": "all joints 0",
+ "parts": 72,
+ "triangles": 1155940,
+ "missing": [],
+ "bbox_min": [
+  -116.964,
+  -408.078,
+  53.547
+ ],
+ "bbox_max": [
+  70.0,
+  409.162,
+  830.028
+ ],
+ "size": [
+  186.964,
+  817.24,
+  776.481
+ ],
+ "part_list": [
+  {
+   "link": "base",
+   "visual_index": 0,
+   "source": "source/berkeley_humanoid_lite_assets/data/robots/berkeley_humanoid/berkeley_humanoid_lite/meshes/base_visual.stl",
+   "triangles": 41942,
+   "bbox_min": [
+    -74.0,
+    -133.0,
+    513.699
+   ],
+   "bbox_max": [
+    70.0,
+    133.0,
+    830.028
+   ]
+  },
+  {
+   "link": "imu_2",
+   "visual_index": 0,
+   "source": "source/berkeley_humanoid_lite_assets/data/robots/berkeley_humanoid/berkeley_humanoid_lite/meshes/imu_2_visual.stl",
+   "triangles": 596,
+   "bbox_min": [
+    54.034,
+    -13.0,
+    680.0
+   ],
+   "bbox_max": [
+    69.034,
+    13.0,
+    685.0
+   ]
+  },
+  {
+   "link": "arm_left_shoulder_pitch",
+   "visual_index": 0,
+   "source": "source/berkeley_humanoid_lite_assets/data/robots/berkeley_humanoid/berkeley_humanoid_lite/meshes/arm_left_shoulder_pitch_visual.stl",
+   "triangles": 41940,
+   "bbox_min": [
+    -52.5,
+    133.0,
+    728.028
+   ],
+   "bbox_max": [
+    25.5,
+    211.0,
+    800.028
+   ]
+  },
+  {
+   "link": "arm_left_shoulder_roll",
+   "visual_index": 0,
+   "source": "source/berkeley_humanoid_lite_assets/data/robots/berkeley_humanoid/berkeley_humanoid_lite/meshes/arm_left_shoulder_roll_visual.stl",
+   "triangles": 41940,
+   "bbox_min": [
+    -65.5,
+    148.811,
+    638.384
+   ],
+   "bbox_max": [
+    35.0,
+    240.861,
+    785.528
+   ]
+  },
+  {
+   "link": "arm_left_shoulder_yaw",
+   "visual_index": 0,
+   "source": "source/berkeley_humanoid_lite_assets/data/robots/berkeley_humanoid/berkeley_humanoid_lite/meshes/arm_left_shoulder_yaw_visual.stl",
+   "triangles": 41940,
+   "bbox_min": [
+    -35.0,
+    188.457,
+    564.317
+   ],
+   "bbox_max": [
+    35.0,
+    278.341,
+    650.395
+   ]
+  },
+  {
+   "link": "arm_left_elbow_pitch",
+   "visual_index": 0,
+   "source": "source/berkeley_humanoid_lite_assets/data/robots/berkeley_humanoid/berkeley_humanoid_lite/meshes/arm_left_elbow_pitch_visual.stl",
+   "triangles": 41940,
+   "bbox_min": [
+    -35.001,
+    181.299,
+    478.299
+   ],
+   "bbox_max": [
+    35.0,
+    296.655,
+    632.227
+   ]
+  },
+  {
+   "link": "arm_left_elbow_roll",
+   "visual_index": 0,
+   "source": "source/berkeley_humanoid_lite_assets/data/robots/berkeley_humanoid/berkeley_humanoid_lite/meshes/arm_left_elbow_roll_visual.stl",
+   "triangles": 288,
+   "bbox_min": [
+    -5.001,
+    246.933,
+    474.18
+   ],
+   "bbox_max": [
+    5.0,
+    259.18,
+    486.427
+   ]
+  },
+  {
+   "link": "arm_right_shoulder_pitch",
+   "visual_index": 0,
+   "source": "source/berkeley_humanoid_lite_assets/data/robots/berkeley_humanoid/berkeley_humanoid_lite/meshes/arm_right_shoulder_pitch_visual.stl",
+   "triangles": 41940,
+   "bbox_min": [
+    -52.5,
+    -211.0,
+    728.028
+   ],
+   "bbox_max": [
+    25.5,
+    -133.0,
+    800.028
+   ]
+  },
+  {
+   "link": "arm_right_shoulder_roll",
+   "visual_index": 0,
+   "source": "source/berkeley_humanoid_lite_assets/data/robots/berkeley_humanoid/berkeley_humanoid_lite/meshes/arm_right_shoulder_roll_visual.stl",
+   "triangles": 41940,
+   "bbox_min": [
+    -65.5,
+    -240.86,
+    638.385
+   ],
+   "bbox_max": [
+    35.0,
+    -148.811,
+    785.528
+   ]
+  },
+  {
+   "link": "arm_right_shoulder_yaw",
+   "visual_index": 0,
+   "source": "source/berkeley_humanoid_lite_assets/data/robots/berkeley_humanoid/berkeley_humanoid_lite/meshes/arm_right_shoulder_yaw_visual.stl",
+   "triangles": 41940,
+   "bbox_min": [
+    -35.0,
+    -278.341,
+    564.317
+   ],
+   "bbox_max": [
+    35.0,
+    -188.457,
+    650.395
+   ]
+  },
+  {
+   "link": "arm_right_elbow_pitch",
+   "visual_index": 0,
+   "source": "source/berkeley_humanoid_lite_assets/data/robots/berkeley_humanoid/berkeley_humanoid_lite/meshes/arm_right_elbow_pitch_visual.stl",
+   "triangles": 41940,
+   "bbox_min": [
+    -35.0,
+    -296.656,
+    478.299
+   ],
+   "bbox_max": [
+    35.0,
+    -181.299,
+    632.227
+   ]
+  },
+  {
+   "link": "arm_right_elbow_roll",
+   "visual_index": 0,
+   "source": "source/berkeley_humanoid_lite_assets/data/robots/berkeley_humanoid/berkeley_humanoid_lite/meshes/arm_right_elbow_roll_visual.stl",
+   "triangles": 288,
+   "bbox_min": [
+    -5.0,
+    -259.181,
+    474.18
+   ],
+   "bbox_max": [
+    5.0,
+    -246.933,
+    486.428
+   ]
+  },
+  {
+   "link": "arm_right_mount",
+   "visual_index": 0,
+   "source": "ros2_ws/src/berkeley_humanoid_lite_description/meshes_adapter/bhl_v1_forearm_coupling_v2.stl",
+   "triangles": 2594,
+   "bbox_min": [
+    -36.0,
+    -289.203,
+    465.822
+   ],
+   "bbox_max": [
+    36.0,
+    -217.48,
+    492.661
+   ]
+  },
+  {
+   "link": "arm_right_forearm",
+   "visual_index": 0,
+   "source": "ros2_ws/vendor/dexhand_v1_description/meshes/right/forearm_1.stl",
+   "triangles": 40346,
+   "bbox_min": [
+    -41.936,
+    -337.002,
+    269.261
+   ],
+   "bbox_max": [
+    42.013,
+    -211.289,
+    497.099
+   ]
+  },
+  {
+   "link": "arm_right_wrist_lower",
+   "visual_index": 0,
+   "source": "ros2_ws/vendor/dexhand_v1_description/meshes/right/wrist_lower_1.stl",
+   "triangles": 10310,
+   "bbox_min": [
+    -9.002,
+    -341.975,
+    242.685
+   ],
+   "bbox_max": [
+    32.978,
+    -279.493,
+    306.591
+   ]
+  },
+  {
+   "link": "arm_right_wrist_upper",
+   "visual_index": 0,
+   "source": "ros2_ws/vendor/dexhand_v1_description/meshes/right/wrist_upper_1.stl",
+   "triangles": 5264,
+   "bbox_min": [
+    0.388,
+    -340.944,
+    225.272
+   ],
+   "bbox_max": [
+    23.978,
+    -295.045,
+    278.81
+   ]
+  },
+  {
+   "link": "arm_right_index_bulk",
+   "visual_index": 0,
+   "source": "ros2_ws/vendor/dexhand_v1_description/meshes/right/index_bulk_1.stl",
+   "triangles": 12504,
+   "bbox_min": [
+    -6.807,
+    -321.687,
+    149.187
+   ],
+   "bbox_max": [
+    26.977,
+    -285.109,
+    249.365
+   ]
+  },
+  {
+   "link": "arm_right_middle_bulk",
+   "visual_index": 0,
+   "source": "ros2_ws/vendor/dexhand_v1_description/meshes/right/middle_bulk_1.stl",
+   "triangles": 8362,
+   "bbox_min": [
+    -38.178,
+    -345.235,
+    148.748
+   ],
+   "bbox_max": [
+    21.978,
+    -278.144,
+    250.517
+   ]
+  },
+  {
+   "link": "arm_right_ring_bulk",
+   "visual_index": 0,
+   "source": "ros2_ws/vendor/dexhand_v1_description/meshes/right/ring_bulk_1.stl",
+   "triangles": 128920,
+   "bbox_min": [
+    -8.554,
+    -367.608,
+    157.668
+   ],
+   "bbox_max": [
+    20.025,
+    -317.94,
+    250.137
+   ]
+  },
+  {
+   "link": "arm_right_hand_cover",
+   "visual_index": 0,
+   "source": "ros2_ws/vendor/dexhand_v1_description/meshes/right/hand-cover_1.stl",
+   "triangles": 27462,
+   "bbox_min": [
+    -15.085,
+    -382.348,
+    151.075
+   ],
+   "bbox_max": [
+    31.583,
+    -274.238,
+    263.739
+   ]
+  },
+  {
+   "link": "arm_right_pinky_bulk",
+   "visual_index": 0,
+   "source": "ros2_ws/vendor/dexhand_v1_description/meshes/right/pinky_bulk_1.stl",
+   "triangles": 7046,
+   "bbox_min": [
+    -9.76,
+    -385.016,
+    169.609
+   ],
+   "bbox_max": [
+    26.976,
+    -334.529,
+    261.803
+   ]
+  },
+  {
+   "link": "Index_Knuckle_1",
+   "visual_index": 0,
+   "source": "ros2_ws/vendor/dexhandv2_description/meshes/right/Index_Knuckle_1.stl",
+   "triangles": 9710,
+   "bbox_min": [
+    16.553,
+    -330.491,
+    95.968
+   ],
+   "bbox_max": [
+    36.763,
+    -301.908,
+    148.252
+   ]
+  },
+  {
+   "link": "Index_Middle_1",
+   "visual_index": 0,
+   "source": "ros2_ws/vendor/dexhandv2_description/meshes/right/Index_Middle_1.stl",
+   "triangles": 6068,
+   "bbox_min": [
+    19.047,
+    -335.814,
+    74.455
+   ],
+   "bbox_max": [
+    36.979,
+    -313.941,
+    109.081
+   ]
+  },
+  {
+   "link": "Index_Tip_1",
+   "visual_index": 0,
+   "source": "ros2_ws/vendor/dexhandv2_description/meshes/right/Index_Tip_1.stl",
+   "triangles": 8006,
+   "bbox_min": [
+    19.734,
+    -339.234,
+    53.565
+   ],
+   "bbox_max": [
+    32.401,
+    -322.321,
+    79.946
+   ]
+  },
+  {
+   "link": "Index_Knuckle_Cross_1",
+   "visual_index": 0,
+   "source": "ros2_ws/vendor/dexhandv2_description/meshes/right/Index_Knuckle_Cross_1.stl",
+   "triangles": 9478,
+   "bbox_min": [
+    15.115,
+    -319.535,
+    138.775
+   ],
+   "bbox_max": [
+    34.581,
+    -301.808,
+    157.275
+   ]
+  },
+  {
+   "link": "Middle_Knuckle_1",
+   "visual_index": 0,
+   "source": "ros2_ws/vendor/dexhandv2_description/meshes/right/Middle_Knuckle_1.stl",
+   "triangles": 9756,
+   "bbox_min": [
+    16.299,
+    -356.393,
+    96.545
+   ],
+   "bbox_max": [
+    35.395,
+    -327.936,
+    148.874
+   ]
+  },
+  {
+   "link": "Middle_Middle_1",
+   "visual_index": 0,
+   "source": "ros2_ws/vendor/dexhandv2_description/meshes/right/Middle_Middle_1.stl",
+   "triangles": 6144,
+   "bbox_min": [
+    18.84,
+    -361.515,
+    75.099
+   ],
+   "bbox_max": [
+    36.32,
+    -339.831,
+    109.674
+   ]
+  },
+  {
+   "link": "Midle_Tip_1",
+   "visual_index": 0,
+   "source": "ros2_ws/vendor/dexhandv2_description/meshes/right/Midle_Tip_1.stl",
+   "triangles": 8286,
+   "bbox_min": [
+    19.416,
+    -364.953,
+    54.23
+   ],
+   "bbox_max": [
+    31.343,
+    -347.903,
+    80.525
+   ]
+  },
+  {
+   "link": "Middle_Knuckle_Cross_1",
+   "visual_index": 0,
+   "source": "ros2_ws/vendor/dexhandv2_description/meshes/right/Middle_Knuckle_Cross_1.stl",
+   "triangles": 9540,
+   "bbox_min": [
+    14.344,
+    -344.733,
+    139.245
+   ],
+   "bbox_max": [
+    33.344,
+    -327.076,
+    157.628
+   ]
+  },
+  {
+   "link": "Ring_Knuckle_1",
+   "visual_index": 0,
+   "source": "ros2_ws/vendor/dexhandv2_description/meshes/right/Ring_Knuckle_1.stl",
+   "triangles": 9656,
+   "bbox_min": [
+    14.752,
+    -380.658,
+    107.013
+   ],
+   "bbox_max": [
+    35.272,
+    -351.788,
+    159.469
+   ]
+  },
+  {
+   "link": "Ring_Middle_1",
+   "visual_index": 0,
+   "source": "ros2_ws/vendor/dexhandv2_description/meshes/right/Ring_Middle_1.stl",
+   "triangles": 6012,
+   "bbox_min": [
+    17.659,
+    -385.447,
+    85.64
+   ],
+   "bbox_max": [
+    35.63,
+    -363.555,
+    120.138
+   ]
+  },
+  {
+   "link": "Ring_Tip_1",
+   "visual_index": 0,
+   "source": "ros2_ws/vendor/dexhandv2_description/meshes/right/Ring_Tip_1.stl",
+   "triangles": 8006,
+   "bbox_min": [
+    18.644,
+    -388.938,
+    64.743
+   ],
+   "bbox_max": [
+    31.241,
+    -371.629,
+    90.983
+   ]
+  },
+  {
+   "link": "Ring_Knuckle_Cross_1",
+   "visual_index": 0,
+   "source": "ros2_ws/vendor/dexhandv2_description/meshes/right/Ring_Knuckle_Cross_1.stl",
+   "triangles": 9478,
+   "bbox_min": [
+    13.213,
+    -368.176,
+    149.612
+   ],
+   "bbox_max": [
+    32.676,
+    -350.448,
+    168.175
+   ]
+  },
+  {
+   "link": "Pinky_Knuckle_1",
+   "visual_index": 0,
+   "source": "ros2_ws/vendor/dexhandv2_description/meshes/right/Pinky_Knuckle_1.stl",
+   "triangles": 9548,
+   "bbox_min": [
+    13.138,
+    -400.07,
+    120.392
+   ],
+   "bbox_max": [
+    33.935,
+    -370.133,
+    172.849
+   ]
+  },
+  {
+   "link": "Pinky_Middle_1",
+   "visual_index": 0,
+   "source": "ros2_ws/vendor/dexhandv2_description/meshes/right/Pinky_Middle_1.stl",
+   "triangles": 5924,
+   "bbox_min": [
+    14.925,
+    -404.481,
+    99.023
+   ],
+   "bbox_max": [
+    33.277,
+    -382.376,
+    133.522
+   ]
+  },
+  {
+   "link": "Pinky_Tip_1",
+   "visual_index": 0,
+   "source": "ros2_ws/vendor/dexhandv2_description/meshes/right/Pinky_Tip_1.stl",
+   "triangles": 7968,
+   "bbox_min": [
+    15.591,
+    -408.078,
+    78.138
+   ],
+   "bbox_max": [
+    29.053,
+    -390.43,
+    104.378
+   ]
+  },
+  {
+   "link": "Pinky_Knuckle_Cross_1",
+   "visual_index": 0,
+   "source": "ros2_ws/vendor/dexhandv2_description/meshes/right/Pinky_Knuckle_Cross_1.stl",
+   "triangles": 9174,
+   "bbox_min": [
+    12.371,
+    -386.791,
+    162.985
+   ],
+   "bbox_max": [
+    32.165,
+    -368.841,
+    181.548
+   ]
+  },
+  {
+   "link": "Thumb_Prox_KC_1",
+   "visual_index": 0,
+   "source": "ros2_ws/vendor/dexhandv2_description/meshes/right/Thumb_Prox_KC_1.stl",
+   "triangles": 6702,
+   "bbox_min": [
+    -19.86,
+    -320.721,
+    208.682
+   ],
+   "bbox_max": [
+    -0.13,
+    -297.706,
+    227.683
+   ]
+  },
+  {
+   "link": "Thumb_Dist_KC_1",
+   "visual_index": 0,
+   "source": "ros2_ws/vendor/dexhandv2_description/meshes/right/Thumb_Dist_KC_1.stl",
+   "triangles": 7564,
+   "bbox_min": [
+    -24.46,
+    -321.59,
+    202.836
+   ],
+   "bbox_max": [
+    -4.628,
+    -300.898,
+    223.568
+   ]
+  },
+  {
+   "link": "Thumb_Middle_1",
+   "visual_index": 0,
+   "source": "ros2_ws/vendor/dexhandv2_description/meshes/right/Thumb_Middle_1.stl",
+   "triangles": 7240,
+   "bbox_min": [
+    -92.697,
+    -330.471,
+    157.657
+   ],
+   "bbox_max": [
+    -51.719,
+    -307.186,
+    191.339
+   ]
+  },
+  {
+   "link": "Thumb_Tip_1",
+   "visual_index": 0,
+   "source": "ros2_ws/vendor/dexhandv2_description/meshes/right/Thumb_Tip_1.stl",
+   "triangles": 7332,
+   "bbox_min": [
+    -115.737,
+    -332.662,
+    141.305
+   ],
+   "bbox_max": [
+    -82.533,
+    -315.271,
+    168.833
+   ]
+  },
+  {
+   "link": "Thumb_Knuckle_1",
+   "visual_index": 0,
+   "source": "ros2_ws/vendor/dexhandv2_description/meshes/right/Thumb_Knuckle_1.stl",
+   "triangles": 11810,
+   "bbox_min": [
+    -66.764,
+    -325.163,
+    176.546
+   ],
+   "bbox_max": [
+    -12.892,
+    -295.606,
+    225.306
+   ]
+  },
+  {
+   "link": "arm_left_mount",
+   "visual_index": 0,
+   "source": "ros2_ws/src/berkeley_humanoid_lite_description/meshes_adapter/bhl_v1_forearm_coupling_v2.stl",
+   "triangles": 2594,
+   "bbox_min": [
+    -36.001,
+    217.479,
+    465.822
+   ],
+   "bbox_max": [
+    36.0,
+    289.203,
+    492.661
+   ]
+  },
+  {
+   "link": "arm_left_forearm",
+   "visual_index": 0,
+   "source": "ros2_ws/vendor/dexhand_v1_description/meshes/left/forearm_left_1.stl",
+   "triangles": 40356,
+   "bbox_min": [
+    -41.936,
+    211.288,
+    269.261
+   ],
+   "bbox_max": [
+    42.013,
+    337.001,
+    497.099
+   ]
+  },
+  {
+   "link": "arm_left_wrist_lower",
+   "visual_index": 0,
+   "source": "ros2_ws/vendor/dexhand_v1_description/meshes/left/wrist_lower_1.stl",
+   "triangles": 10310,
+   "bbox_min": [
+    -9.001,
+    279.491,
+    242.685
+   ],
+   "bbox_max": [
+    32.979,
+    341.974,
+    306.59
+   ]
+  },
+  {
+   "link": "arm_left_wrist_upper",
+   "visual_index": 0,
+   "source": "ros2_ws/vendor/dexhand_v1_description/meshes/left/wrist_upper_1.stl",
+   "triangles": 5264,
+   "bbox_min": [
+    0.289,
+    295.044,
+    225.272
+   ],
+   "bbox_max": [
+    23.879,
+    340.943,
+    278.81
+   ]
+  },
+  {
+   "link": "arm_left_index_bulk",
+   "visual_index": 0,
+   "source": "ros2_ws/vendor/dexhand_v1_description/meshes/left/index_bulk_left_1.stl",
+   "triangles": 74844,
+   "bbox_min": [
+    -6.906,
+    285.108,
+    149.186
+   ],
+   "bbox_max": [
+    26.878,
+    321.685,
+    249.364
+   ]
+  },
+  {
+   "link": "arm_left_middle_bulk",
+   "visual_index": 0,
+   "source": "ros2_ws/vendor/dexhand_v1_description/meshes/left/middle_bulk_left_1.stl",
+   "triangles": 8362,
+   "bbox_min": [
+    -38.274,
+    278.026,
+    149.184
+   ],
+   "bbox_max": [
+    21.883,
+    345.117,
+    250.953
+   ]
+  },
+  {
+   "link": "arm_left_ring_bulk",
+   "visual_index": 0,
+   "source": "ros2_ws/vendor/dexhand_v1_description/meshes/left/ring_bulk_left_1.stl",
+   "triangles": 11720,
+   "bbox_min": [
+    -8.649,
+    317.822,
+    158.105
+   ],
+   "bbox_max": [
+    19.93,
+    367.489,
+    250.574
+   ]
+  },
+  {
+   "link": "arm_left_hand_cover",
+   "visual_index": 0,
+   "source": "ros2_ws/vendor/dexhand_v1_description/meshes/left/hand-cover-left_1.stl",
+   "triangles": 27198,
+   "bbox_min": [
+    -15.18,
+    274.12,
+    151.512
+   ],
+   "bbox_max": [
+    31.488,
+    382.23,
+    264.175
+   ]
+  },
+  {
+   "link": "arm_left_pinky_bulk",
+   "visual_index": 0,
+   "source": "ros2_ws/vendor/dexhand_v1_description/meshes/left/pinky_bulk_left_1.stl",
+   "triangles": 7046,
+   "bbox_min": [
+    -9.855,
+    335.082,
+    170.225
+   ],
+   "bbox_max": [
+    26.881,
+    385.568,
+    262.419
+   ]
+  },
+  {
+   "link": "L_Index_Knuckle_1",
+   "visual_index": 0,
+   "source": "ros2_ws/src/berkeley_humanoid_lite_description/meshes_dexhand_left/Index_Knuckle_1.stl",
+   "triangles": 9710,
+   "bbox_min": [
+    19.441,
+    301.641,
+    95.95
+   ],
+   "bbox_max": [
+    39.652,
+    330.224,
+    148.234
+   ]
+  },
+  {
+   "link": "L_Index_Middle_1",
+   "visual_index": 0,
+   "source": "ros2_ws/src/berkeley_humanoid_lite_description/meshes_dexhand_left/Index_Middle_1.stl",
+   "triangles": 6068,
+   "bbox_min": [
+    21.935,
+    313.674,
+    74.437
+   ],
+   "bbox_max": [
+    39.868,
+    335.547,
+    109.063
+   ]
+  },
+  {
+   "link": "L_Index_Tip_1",
+   "visual_index": 0,
+   "source": "ros2_ws/src/berkeley_humanoid_lite_description/meshes_dexhand_left/Index_Tip_1.stl",
+   "triangles": 8006,
+   "bbox_min": [
+    22.622,
+    322.053,
+    53.547
+   ],
+   "bbox_max": [
+    35.289,
+    338.967,
+    79.928
+   ]
+  },
+  {
+   "link": "L_Index_Knuckle_Cross_1",
+   "visual_index": 0,
+   "source": "ros2_ws/src/berkeley_humanoid_lite_description/meshes_dexhand_left/Index_Knuckle_Cross_1.stl",
+   "triangles": 9478,
+   "bbox_min": [
+    18.004,
+    301.541,
+    138.758
+   ],
+   "bbox_max": [
+    37.469,
+    319.268,
+    157.257
+   ]
+  },
+  {
+   "link": "L_Middle_Knuckle_1",
+   "visual_index": 0,
+   "source": "ros2_ws/src/berkeley_humanoid_lite_description/meshes_dexhand_left/Middle_Knuckle_1.stl",
+   "triangles": 9756,
+   "bbox_min": [
+    19.204,
+    327.817,
+    96.981
+   ],
+   "bbox_max": [
+    38.3,
+    356.275,
+    149.311
+   ]
+  },
+  {
+   "link": "L_Middle_Middle_1",
+   "visual_index": 0,
+   "source": "ros2_ws/src/berkeley_humanoid_lite_description/meshes_dexhand_left/Middle_Middle_1.stl",
+   "triangles": 6144,
+   "bbox_min": [
+    21.745,
+    339.712,
+    75.536
+   ],
+   "bbox_max": [
+    39.225,
+    361.396,
+    110.11
+   ]
+  },
+  {
+   "link": "L_Midle_Tip_1",
+   "visual_index": 0,
+   "source": "ros2_ws/src/berkeley_humanoid_lite_description/meshes_dexhand_left/Midle_Tip_1.stl",
+   "triangles": 8286,
+   "bbox_min": [
+    22.32,
+    347.785,
+    54.666
+   ],
+   "bbox_max": [
+    34.248,
+    364.834,
+    80.961
+   ]
+  },
+  {
+   "link": "L_Middle_Knuckle_Cross_1",
+   "visual_index": 0,
+   "source": "ros2_ws/src/berkeley_humanoid_lite_description/meshes_dexhand_left/Middle_Knuckle_Cross_1.stl",
+   "triangles": 9540,
+   "bbox_min": [
+    17.248,
+    326.958,
+    139.681
+   ],
+   "bbox_max": [
+    36.248,
+    344.614,
+    158.065
+   ]
+  },
+  {
+   "link": "L_Ring_Knuckle_1",
+   "visual_index": 0,
+   "source": "ros2_ws/src/berkeley_humanoid_lite_description/meshes_dexhand_left/Ring_Knuckle_1.stl",
+   "triangles": 9656,
+   "bbox_min": [
+    17.646,
+    351.921,
+    107.519
+   ],
+   "bbox_max": [
+    38.166,
+    380.791,
+    159.976
+   ]
+  },
+  {
+   "link": "L_Ring_Middle_1",
+   "visual_index": 0,
+   "source": "ros2_ws/src/berkeley_humanoid_lite_description/meshes_dexhand_left/Ring_Middle_1.stl",
+   "triangles": 6012,
+   "bbox_min": [
+    20.553,
+    363.688,
+    86.146
+   ],
+   "bbox_max": [
+    38.524,
+    385.579,
+    120.645
+   ]
+  },
+  {
+   "link": "L_Ring_Tip_1",
+   "visual_index": 0,
+   "source": "ros2_ws/src/berkeley_humanoid_lite_description/meshes_dexhand_left/Ring_Tip_1.stl",
+   "triangles": 8006,
+   "bbox_min": [
+    21.538,
+    371.761,
+    65.25
+   ],
+   "bbox_max": [
+    34.134,
+    389.071,
+    91.49
+   ]
+  },
+  {
+   "link": "L_Ring_Knuckle_Cross_1",
+   "visual_index": 0,
+   "source": "ros2_ws/src/berkeley_humanoid_lite_description/meshes_dexhand_left/Ring_Knuckle_Cross_1.stl",
+   "triangles": 9478,
+   "bbox_min": [
+    16.107,
+    350.581,
+    150.119
+   ],
+   "bbox_max": [
+    35.57,
+    368.309,
+    168.682
+   ]
+  },
+  {
+   "link": "L_Pinky_Knuckle_1",
+   "visual_index": 0,
+   "source": "ros2_ws/src/berkeley_humanoid_lite_description/meshes_dexhand_left/Pinky_Knuckle_1.stl",
+   "triangles": 9548,
+   "bbox_min": [
+    15.877,
+    371.217,
+    121.202
+   ],
+   "bbox_max": [
+    36.674,
+    401.153,
+    173.659
+   ]
+  },
+  {
+   "link": "L_Pinky_Middle_1",
+   "visual_index": 0,
+   "source": "ros2_ws/src/berkeley_humanoid_lite_description/meshes_dexhand_left/Pinky_Middle_1.stl",
+   "triangles": 5924,
+   "bbox_min": [
+    17.664,
+    383.46,
+    99.833
+   ],
+   "bbox_max": [
+    36.016,
+    405.564,
+    134.332
+   ]
+  },
+  {
+   "link": "L_Pinky_Tip_1",
+   "visual_index": 0,
+   "source": "ros2_ws/src/berkeley_humanoid_lite_description/meshes_dexhand_left/Pinky_Tip_1.stl",
+   "triangles": 7968,
+   "bbox_min": [
+    18.33,
+    391.514,
+    78.948
+   ],
+   "bbox_max": [
+    31.792,
+    409.162,
+    105.188
+   ]
+  },
+  {
+   "link": "L_Pinky_Knuckle_Cross_1",
+   "visual_index": 0,
+   "source": "ros2_ws/src/berkeley_humanoid_lite_description/meshes_dexhand_left/Pinky_Knuckle_Cross_1.stl",
+   "triangles": 9174,
+   "bbox_min": [
+    15.11,
+    369.925,
+    163.795
+   ],
+   "bbox_max": [
+    34.903,
+    387.875,
+    182.358
+   ]
+  },
+  {
+   "link": "L_Thumb_Prox_KC_1",
+   "visual_index": 0,
+   "source": "ros2_ws/src/berkeley_humanoid_lite_description/meshes_dexhand_left/Thumb_Prox_KC_1.stl",
+   "triangles": 6702,
+   "bbox_min": [
+    -21.087,
+    295.11,
+    210.798
+   ],
+   "bbox_max": [
+    -1.356,
+    318.125,
+    229.798
+   ]
+  },
+  {
+   "link": "L_Thumb_Dist_KC_1",
+   "visual_index": 0,
+   "source": "ros2_ws/src/berkeley_humanoid_lite_description/meshes_dexhand_left/Thumb_Dist_KC_1.stl",
+   "triangles": 7564,
+   "bbox_min": [
+    -25.686,
+    298.302,
+    204.951
+   ],
+   "bbox_max": [
+    -5.855,
+    318.994,
+    225.683
+   ]
+  },
+  {
+   "link": "L_Thumb_Middle_1",
+   "visual_index": 0,
+   "source": "ros2_ws/src/berkeley_humanoid_lite_description/meshes_dexhand_left/Thumb_Middle_1.stl",
+   "triangles": 7240,
+   "bbox_min": [
+    -93.923,
+    304.59,
+    159.773
+   ],
+   "bbox_max": [
+    -52.946,
+    327.875,
+    193.454
+   ]
+  },
+  {
+   "link": "L_Thumb_Tip_1",
+   "visual_index": 0,
+   "source": "ros2_ws/src/berkeley_humanoid_lite_description/meshes_dexhand_left/Thumb_Tip_1.stl",
+   "triangles": 7332,
+   "bbox_min": [
+    -116.964,
+    312.676,
+    143.42
+   ],
+   "bbox_max": [
+    -83.759,
+    330.066,
+    170.948
+   ]
+  },
+  {
+   "link": "L_Thumb_Knuckle_1",
+   "visual_index": 0,
+   "source": "ros2_ws/src/berkeley_humanoid_lite_description/meshes_dexhand_left/Thumb_Knuckle_1.stl",
+   "triangles": 11810,
+   "bbox_min": [
+    -67.99,
+    293.01,
+    178.662
+   ],
+   "bbox_max": [
+    -14.119,
+    322.567,
+    227.421
+   ]
+  }
+ ]
+}
