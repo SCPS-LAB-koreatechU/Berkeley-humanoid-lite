@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>bhl_onboard</name>
+  <version>0.1.0</version>
+  <description>Berkeley Humanoid Lite on-board low-level controller for the RDK X5: /lowcmd /lowstate over recoil CAN, trajectory server, hand presets.</description>
+  <maintainer email="hexk0131@gmail.com">SCPS Lab</maintainer>
+  <license>BSD-3-Clause</license>
+  <exec_depend>rclpy</exec_depend>
+  <exec_depend>bhl_msgs</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>std_srvs</exec_depend>
+  <exec_depend>control_msgs</exec_depend>
+  <exec_depend>python3-can</exec_depend>
+  <exec_depend>python3-yaml</exec_depend>
+  <test_depend>python3-pytest</test_depend>
+  <export><build_type>ament_python</build_type></export>
+</package>
