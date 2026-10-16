@@ -1,0 +1,256 @@
+{
+ "frame": "vehicle: origin on the ground under the wheelbase centre, x forward, z up, mm (the lower_body_adapter STL alone is in the robot base frame and holds only the wedges and the plate; the posts follow the deck height)",
+ "pose": {
+  "arm_right_elbow_pitch_joint": -1.5708,
+  "arm_left_elbow_pitch_joint": 1.5708
+ },
+ "params": {
+  "wheelbase": {
+   "value": 1040.0,
+   "source": "public"
+  },
+  "wheel_r": {
+   "value": 265.0,
+   "source": "public"
+  },
+  "steer_max_deg": {
+   "value": 28.0,
+   "source": "public (ROS param; some papers use 20)"
+  },
+  "track": {
+   "value": 900.0,
+   "source": "assumed"
+  },
+  "tire_w": {
+   "value": 170.0,
+   "source": "assumed"
+  },
+  "body_len": {
+   "value": 1800.0,
+   "source": "assumed"
+  },
+  "body_w": {
+   "value": 1100.0,
+   "source": "assumed"
+  },
+  "deck_z": {
+   "value": 600.0,
+   "source": "assumed"
+  },
+  "deck_t": {
+   "value": 20.0,
+   "source": "assumed"
+  },
+  "tub_len": {
+   "value": 1700.0,
+   "source": "assumed"
+  },
+  "tub_w": {
+   "value": 660.0,
+   "source": "assumed"
+  },
+  "tub_bottom": {
+   "value": 220.0,
+   "source": "assumed"
+  },
+  "table_z": {
+   "value": 750.0,
+   "source": "requirement: 75 cm worktable"
+  },
+  "hand_clear": {
+   "value": 30.0,
+   "source": "requirement: hands 3 cm above the table"
+  },
+  "mount_x": {
+   "value": 0.0,
+   "source": "requirement: torso at the deck centre"
+  },
+  "adapter_z": {
+   "value": 500.0,
+   "source": "design: 13.7 mm under the hip-roll housings"
+  },
+  "adapter_x0": {
+   "value": -75.0,
+   "source": "design"
+  },
+  "adapter_x1": {
+   "value": 15.0,
+   "source": "design"
+  },
+  "adapter_w": {
+   "value": 250.0,
+   "source": "design"
+  },
+  "flange": {
+   "value": 64.0,
+   "source": "design: square pad on the hip-roll output flange"
+  },
+  "plate_t": {
+   "value": 8.0,
+   "source": "design"
+  },
+  "post": {
+   "value": 20.0,
+   "source": "design: 2020 extrusion"
+  },
+  "post_dx": {
+   "value": 35.0,
+   "source": "design"
+  },
+  "post_dy": {
+   "value": 70.0,
+   "source": "design"
+  },
+  "base_plate_x": {
+   "value": 220.0,
+   "source": "design"
+  },
+  "base_plate_y": {
+   "value": 280.0,
+   "source": "design"
+  }
+ },
+ "dims_mm": {
+  "base_origin_z": 293.2,
+  "deck_top_z": 620.0,
+  "adapter_plate_top_z": 793.2,
+  "adapter_post_len": 157.2,
+  "torso_bottom_z": 806.9,
+  "hip_flange_z": 835.8,
+  "hand_lowest_z": 780.0,
+  "shoulder_axis_z": 1057.2,
+  "camera_centre_z": 1157.2,
+  "top_z": 1172.3,
+  "fingertip_x": 566.6,
+  "fingertip_behind_front_edge": 333.4,
+  "hand_above_deck": 160.0
+ },
+ "interference_vertices": {},
+ "parts": {
+  "erp42_amr_envelope_with_adapter_mm.stl": [
+   "amr_deck",
+   "amr_tub",
+   "amr_bumper_front",
+   "amr_bumper_rear",
+   "amr_wheel_front_left",
+   "amr_hub_front_left",
+   "amr_wheel_front_right",
+   "amr_hub_front_right",
+   "amr_wheel_rear_left",
+   "amr_hub_rear_left",
+   "amr_wheel_rear_right",
+   "amr_hub_rear_right",
+   "adapter_hip_wedge_left",
+   "adapter_hip_wedge_right",
+   "adapter_plate",
+   "adapter_deck_plate",
+   "adapter_post_rear_right",
+   "adapter_post_rear_left",
+   "adapter_post_front_right",
+   "adapter_post_front_left"
+  ],
+  "erp42_amr_lower_body_adapter_mm.stl": [
+   "adapter_hip_wedge_left",
+   "adapter_hip_wedge_right",
+   "adapter_plate"
+  ],
+  "erp42_amr_v1arm_mobile_manipulator_work_pose_mm.stl": [
+   "base/0",
+   "imu_2/0",
+   "arm_left_shoulder_pitch/0",
+   "arm_left_shoulder_roll/0",
+   "arm_left_shoulder_yaw/0",
+   "arm_left_elbow_pitch/0",
+   "arm_left_elbow_roll/0",
+   "arm_right_shoulder_pitch/0",
+   "arm_right_shoulder_roll/0",
+   "arm_right_shoulder_yaw/0",
+   "arm_right_elbow_pitch/0",
+   "arm_right_elbow_roll/0",
+   "head_mount/0",
+   "head_mount/1",
+   "head_mount/2",
+   "zed_camera_center/0",
+   "arm_right_mount/0",
+   "arm_right_forearm/0",
+   "arm_right_wrist_lower/0",
+   "arm_right_wrist_upper/0",
+   "arm_right_index_bulk/0",
+   "arm_right_middle_bulk/0",
+   "arm_right_ring_bulk/0",
+   "arm_right_hand_cover/0",
+   "arm_right_pinky_bulk/0",
+   "Index_Knuckle_1/0",
+   "Index_Middle_1/0",
+   "Index_Tip_1/0",
+   "Index_Knuckle_Cross_1/0",
+   "Middle_Knuckle_1/0",
+   "Middle_Middle_1/0",
+   "Midle_Tip_1/0",
+   "Middle_Knuckle_Cross_1/0",
+   "Ring_Knuckle_1/0",
+   "Ring_Middle_1/0",
+   "Ring_Tip_1/0",
+   "Ring_Knuckle_Cross_1/0",
+   "Pinky_Knuckle_1/0",
+   "Pinky_Middle_1/0",
+   "Pinky_Tip_1/0",
+   "Pinky_Knuckle_Cross_1/0",
+   "Thumb_Prox_KC_1/0",
+   "Thumb_Dist_KC_1/0",
+   "Thumb_Middle_1/0",
+   "Thumb_Tip_1/0",
+   "Thumb_Knuckle_1/0",
+   "arm_left_mount/0",
+   "arm_left_forearm/0",
+   "arm_left_wrist_lower/0",
+   "arm_left_wrist_upper/0",
+   "arm_left_index_bulk/0",
+   "arm_left_middle_bulk/0",
+   "arm_left_ring_bulk/0",
+   "arm_left_hand_cover/0",
+   "arm_left_pinky_bulk/0",
+   "L_Index_Knuckle_1/0",
+   "L_Index_Middle_1/0",
+   "L_Index_Tip_1/0",
+   "L_Index_Knuckle_Cross_1/0",
+   "L_Middle_Knuckle_1/0",
+   "L_Middle_Middle_1/0",
+   "L_Midle_Tip_1/0",
+   "L_Middle_Knuckle_Cross_1/0",
+   "L_Ring_Knuckle_1/0",
+   "L_Ring_Middle_1/0",
+   "L_Ring_Tip_1/0",
+   "L_Ring_Knuckle_Cross_1/0",
+   "L_Pinky_Knuckle_1/0",
+   "L_Pinky_Middle_1/0",
+   "L_Pinky_Tip_1/0",
+   "L_Pinky_Knuckle_Cross_1/0",
+   "L_Thumb_Prox_KC_1/0",
+   "L_Thumb_Dist_KC_1/0",
+   "L_Thumb_Middle_1/0",
+   "L_Thumb_Tip_1/0",
+   "L_Thumb_Knuckle_1/0",
+   "amr_deck",
+   "amr_tub",
+   "amr_bumper_front",
+   "amr_bumper_rear",
+   "amr_wheel_front_left",
+   "amr_hub_front_left",
+   "amr_wheel_front_right",
+   "amr_hub_front_right",
+   "amr_wheel_rear_left",
+   "amr_hub_rear_left",
+   "amr_wheel_rear_right",
+   "amr_hub_rear_right",
+   "adapter_hip_wedge_left",
+   "adapter_hip_wedge_right",
+   "adapter_plate",
+   "adapter_deck_plate",
+   "adapter_post_rear_right",
+   "adapter_post_rear_left",
+   "adapter_post_front_right",
+   "adapter_post_front_left"
+  ]
+ }
+}
