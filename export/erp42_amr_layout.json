@@ -5,6 +5,10 @@
   "arm_left_elbow_pitch_joint": 1.5708
  },
  "params": {
+  "amr_scale": {
+   "value": 0.3333333333333333,
+   "source": "requirement: about 1/3 of an ERP-42"
+  },
   "wheelbase": {
    "value": 1040.0,
    "source": "public"
@@ -111,10 +115,15 @@
   }
  },
  "dims_mm": {
+  "wheelbase": 346.7,
+  "wheel_diameter": 176.7,
+  "track": 300.0,
+  "body_length": 600.0,
+  "body_width": 366.7,
   "base_origin_z": 293.2,
-  "deck_top_z": 620.0,
+  "deck_top_z": 206.7,
   "adapter_plate_top_z": 793.2,
-  "adapter_post_len": 157.2,
+  "adapter_post_len": 570.5,
   "torso_bottom_z": 806.9,
   "hip_flange_z": 835.8,
   "hand_lowest_z": 780.0,
@@ -122,8 +131,8 @@
   "camera_centre_z": 1157.2,
   "top_z": 1172.3,
   "fingertip_x": 566.6,
-  "fingertip_behind_front_edge": 333.4,
-  "hand_above_deck": 160.0
+  "fingertip_past_front_edge": 266.6,
+  "hand_above_deck": 573.3
  },
  "interference_vertices": {},
  "parts": {

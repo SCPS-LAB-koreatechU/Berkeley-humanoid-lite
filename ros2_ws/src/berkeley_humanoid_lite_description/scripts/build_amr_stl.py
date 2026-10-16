@@ -6,17 +6,20 @@ wedges, a plate, four 2020 posts and a deck plate). The torso is placed so
 that, with the elbows bent 90 deg (forearms forward), the lowest point of the
 hands is 3 cm above a 75 cm worktable.
 
-Only the wheelbase, the wheel radius and the steering limit are public ERP-42
-values. Body size, deck height and track are PLACEHOLDERS (marked "assumed"
-below and in the json) until the real vehicle is measured; change them with
---set, e.g. --set deck_z=580 body_len=1650.
+The vehicle is drawn at amr_scale (default 1/3) of an ERP-42: every vehicle
+length below is the full-size value and is multiplied by amr_scale, so
+--set amr_scale=1 gives the full-size car. Only the wheelbase, the wheel
+radius and the steering limit are public ERP-42 values. Body size, deck
+height and track are PLACEHOLDERS (marked "assumed" below and in the json)
+until the real vehicle is measured; change them with --set, e.g.
+--set deck_z=580 body_len=1650. The adapter and the robot are not scaled.
 
 Frames: vehicle frame, origin on the ground under the wheelbase centre,
 x forward, z up, millimetres.
 
 Usage:
     python3 build_amr_stl.py                     # all three STLs into export/
-    python3 build_amr_stl.py --set mount_x=380   # torso further forward
+    python3 build_amr_stl.py --set amr_scale=1   # full-size ERP-42
     python3 build_amr_stl.py --no-robot          # skip the 60 MB full assembly
 """
 
@@ -31,6 +34,8 @@ import merge_urdf_stl as m
 
 # value, source
 PARAMS = {
+    # vehicle size relative to an ERP-42; every vehicle length below is full-size
+    "amr_scale": (1.0 / 3.0, "requirement: about 1/3 of an ERP-42"),
     # public ERP-42 values (maker spec and the open ERP-42 ROS packages)
     "wheelbase": (1040.0, "public"),
     "wheel_r": (265.0, "public"),
@@ -115,8 +120,13 @@ def heights(p, hand_low):
     return h
 
 
+def deck_top(p):
+    return (p["deck_z"] + p["deck_t"]) * p["amr_scale"]
+
+
 def amr_meshes(p, steer=0.0):
-    """[(name, tris)] for the vehicle envelope, in the vehicle frame."""
+    """[(name, tris)] for the vehicle envelope, in the vehicle frame, scaled by
+    amr_scale about the origin (ground under the wheelbase centre)."""
     out = [("amr_deck", box(0, 0, p["deck_z"] + p["deck_t"] / 2, p["body_len"], p["body_w"], p["deck_t"])),
            ("amr_tub", box(0, 0, (p["tub_bottom"] + p["deck_z"]) / 2, p["tub_len"], p["tub_w"], p["deck_z"] - p["tub_bottom"]))]
     bx, bd = (p["body_len"] + p["tub_len"]) / 4, (p["body_len"] - p["tub_len"]) / 2   # bumpers fill tub end .. body end
@@ -127,9 +137,9 @@ def amr_meshes(p, steer=0.0):
         for side, s in (("left", 1), ("right", -1)):
             st = steer if name == "front" else 0.0
             out.append((f"amr_wheel_{name}_{side}", wheel(x, s * p["track"] / 2, p["wheel_r"], p["wheel_r"], p["tire_w"], st)))
-            out.append((f"amr_hub_{name}_{side}", wheel(x, s * p["track"] / 2, p["wheel_r"], 0.5 * p["wheel_r"], 4.0, st,
-                                                        dy=s * (p["tire_w"] / 2 + 2.0))))
-    return out
+            out.append((f"amr_hub_{name}_{side}", wheel(x, s * p["track"] / 2, p["wheel_r"], 0.5 * p["wheel_r"], 12.0, st,
+                                                        dy=s * (p["tire_w"] / 2 + 6.0))))      # hub cap, 12 mm proud
+    return [(n, t * p["amr_scale"]) for n, t in out]
 
 
 def adapter_meshes(p, base_z):
@@ -152,9 +162,9 @@ def adapter_meshes(p, base_z):
     x0, x1 = p["adapter_x0"], p["adapter_x1"]
     cx = (x0 + x1) / 2
     out.append(("adapter_plate", box(cx, 0, zp - t / 2, x1 - x0, p["adapter_w"], t) + off))
-    deck_top = p["deck_z"] + p["deck_t"]
-    out.append(("adapter_deck_plate", box(cx + p["mount_x"], 0, deck_top + t / 2, p["base_plate_x"], p["base_plate_y"], t)))
-    top, bot = zp - t + base_z, deck_top + t
+    deck = deck_top(p)
+    out.append(("adapter_deck_plate", box(cx + p["mount_x"], 0, deck + t / 2, p["base_plate_x"], p["base_plate_y"], t)))
+    top, bot = zp - t + base_z, deck + t
     for sx in (-1, 1):
         for sy in (-1, 1):
             out.append((f"adapter_post_{'front' if sx > 0 else 'rear'}_{'left' if sy > 0 else 'right'}",
@@ -196,13 +206,19 @@ def build(p, urdf, with_robot=True, steer=0.0):
     amr = amr_meshes(p, steer)
     adapter = adapter_meshes(p, base_z)
     allr = np.concatenate([t.reshape(-1, 3) for _, t in pose_robot])
-    deck_top = p["deck_z"] + p["deck_t"]
+    deck = deck_top(p)
+    k = p["amr_scale"]
     tip_x = allr[:, 0].max() + p["mount_x"]
     dims = {
+        "wheelbase": p["wheelbase"] * k,
+        "wheel_diameter": 2 * p["wheel_r"] * k,
+        "track": p["track"] * k,
+        "body_length": p["body_len"] * k,
+        "body_width": p["body_w"] * k,
         "base_origin_z": base_z,
-        "deck_top_z": deck_top,
+        "deck_top_z": deck,
         "adapter_plate_top_z": base_z + p["adapter_z"],
-        "adapter_post_len": base_z + p["adapter_z"] - p["plate_t"] - (deck_top + p["plate_t"]),
+        "adapter_post_len": base_z + p["adapter_z"] - p["plate_t"] - (deck + p["plate_t"]),
         "torso_bottom_z": base_z + torso_low,
         "hip_flange_z": base_z + HIP_J[2],
         "hand_lowest_z": base_z + hand_low,
@@ -210,8 +226,8 @@ def build(p, urdf, with_robot=True, steer=0.0):
         "camera_centre_z": base_z + frame_z("zed_camera_center"),
         "top_z": base_z + allr[:, 2].max(),
         "fingertip_x": tip_x,
-        "fingertip_behind_front_edge": p["body_len"] / 2 - tip_x,
-        "hand_above_deck": base_z + hand_low - deck_top,
+        "fingertip_past_front_edge": tip_x - p["body_len"] * k / 2,     # < 0: the hands stay over the deck
+        "hand_above_deck": base_z + hand_low - deck,
     }
     return amr, adapter, robot, dims
 
@@ -231,7 +247,6 @@ def interference(solids, others, tol=0.98):
 
 
 def main():
-    here = os.path.dirname(os.path.abspath(__file__))
     ap = argparse.ArgumentParser()
     ap.add_argument("--urdf", default=os.path.join(m.PKG_DIR, "urdf", "berkeley_humanoid_lite_v1arm.urdf"))
     ap.add_argument("--outdir", default=os.path.join(m.REPO_ROOT, "export"))

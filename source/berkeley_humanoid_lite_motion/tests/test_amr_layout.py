@@ -81,14 +81,25 @@ def test_generated_solids_are_closed_and_outward(layout):
         assert signed_volume(tris) > 0, name
 
 
-def test_vehicle_matches_the_public_numbers(layout, params):
-    amr, _, _, _ = layout
+def test_vehicle_is_the_public_erp42_at_amr_scale(layout, params):
+    amr, _, _, d = layout
+    k = params["amr_scale"]
     wheels = {n: t.reshape(-1, 3) for n, t in amr if n.startswith("amr_wheel")}
     centres = {n: (v.min(0) + v.max(0)) / 2 for n, v in wheels.items()}
-    assert centres["amr_wheel_front_left"][0] - centres["amr_wheel_rear_left"][0] == pytest.approx(params["wheelbase"])
+    assert centres["amr_wheel_front_left"][0] - centres["amr_wheel_rear_left"][0] == pytest.approx(params["wheelbase"] * k)
     for n, v in wheels.items():
         assert v[:, 2].min() == pytest.approx(0.0, abs=1e-6), n          # on the ground
-        assert v[:, 2].max() == pytest.approx(2 * params["wheel_r"], abs=1e-6), n
+        assert v[:, 2].max() == pytest.approx(2 * params["wheel_r"] * k, abs=1e-6), n
+    deck = dict(amr)["amr_deck"].reshape(-1, 3)
+    assert deck[:, 2].max() == pytest.approx(d["deck_top_z"])
+    assert deck[:, 0].max() - deck[:, 0].min() == pytest.approx(d["body_length"])
+
+
+def test_full_size_is_one_set_away(B, params):
+    full = dict(params, amr_scale=1.0)
+    amr, _, _, d = B.build(full, str(V1ARM), with_robot=False)
+    assert d["wheelbase"] == pytest.approx(1040.0)
+    assert d["deck_top_z"] == pytest.approx(full["deck_z"] + full["deck_t"])
 
 
 def test_adapter_stack_closes_from_deck_to_torso(layout, params):
