@@ -1,0 +1,142 @@
+# Berkeley Humanoid Lite -- RDK X5 on-board controller configuration.
+#
+# Motor table seeded 2026-10-16 from
+#   Berkeley-Humanoid-Lite/ros2_ws/src/berkeley_humanoid_lite_moveit_config/config/hardware_joints_left_distal.yaml
+# (bench state: direction / offset / enabled) and URDF limits from
+# berkeley_humanoid_lite_v1arm.urdf. Re-check `offset` after every motor
+# power cycle (firmware position_offset is 0) -- use the ~/zero service.
+#
+# Slot numbers are the LowCmd/LowState array index (unitree-style fixed array).
+
+control:
+  rate_hz: 200.0              # motor exchange loop
+  state_divider: 4            # /lowstate, /bhl/joint_states, hand state every N cycles (50 Hz)
+  reply_budget: 0.003         # [s] max wait for PDO replies per cycle (returns as soon as all arrived;
+                              #     5 motors at 1 Mbit/s need ~1.3 ms of bus time plus USB latency)
+  hand_divider: 4             # hand exchange every N cycles (50 Hz)
+  joint_states_topic: /bhl/joint_states   # PC merges it into /joint_states (onboard:=true)
+
+command:
+  timeout: 0.25               # [s] /lowcmd silence -> hold the last target
+  hold_then_damp: 1.0         # [s] further silence -> firmware DAMPING
+  require_crc: true
+
+safety:
+  max_joint_speed: 1.0        # [rad/s] slew limit on every target
+  limit_margin: 0.05          # [rad] targets clamped into URDF limits less this
+  enable_slack_deg: 3.0       # measured may be this far outside limits at enable
+  link_flaky_cycles: 5        # missed replies -> target frozen
+  pdo_loss_threshold: 100     # missed replies -> motor dropped to IDLE, FAULT_LOST
+  heartbeat_period: 0.2       # [s] recoil watchdog feed (firmware timeout 1.0 s)
+  sdo_min_period: 0.2         # [s] min spacing of gain rewrites per motor
+  caps:                       # hard caps on anything /lowcmd asks for (firmware units)
+    position_kp: 1.5
+    position_kd: 0.05
+    torque_limit: 1.5
+    tau: 0.5
+
+buses:
+  # key -> socketcan channel. Robot: one USB-CAN (gs_usb) adapter per arm. Bench
+  # with a single adapter: set both to the same channel (they share one socket).
+  # RDK X5: the on-board can0 (TCAN4550 over SPI) is NOT usable for the arms --
+  # measured 2026-10-16 in internal loopback: ~1.1 ms per frame, ~900 frames/s,
+  # 9.6 ms for one 10-motor cycle. With it present the USB adapters enumerate
+  # as can1, can2 (order not guaranteed: pin names with a udev rule by serial).
+  left: can0
+  right: can1
+
+gains:                        # applied at enable (firmware units)
+  position_kp: 0.3
+  position_kd: 0.01
+  torque_limit: 0.5
+
+# Joint-space convention: actuator = (q + offset) * direction * gear_ratio
+motors:
+  - {slot: 0,  name: arm_left_shoulder_pitch_joint,  bus: left,  device_id: 1,  direction: -1, gear_ratio: 15.0, offset: 0.0001,  lower: -1.5708, upper: 0.785398, enabled: true}
+  - {slot: 1,  name: arm_left_shoulder_roll_joint,   bus: left,  device_id: 3,  direction: -1, gear_ratio: 15.0, offset: 0.0265,  lower: -0.261799, upper: 1.309, enabled: true,
+     gains: {position_kp: 1.0, position_kd: 0.010, torque_limit: 1.2}}
+  - {slot: 2,  name: arm_left_shoulder_yaw_joint,    bus: left,  device_id: 5,  direction: +1, gear_ratio: 15.0, offset: 0.1004,  lower: -0.785398, upper: 0.785398, enabled: true}
+  - {slot: 3,  name: arm_left_elbow_pitch_joint,     bus: left,  device_id: 7,  direction: +1, gear_ratio: 15.0, offset: -0.1418, lower: 0.0, upper: 1.5708, enabled: true}
+  - {slot: 4,  name: arm_left_elbow_roll_joint,      bus: left,  device_id: 9,  direction: +1, gear_ratio: 15.0, offset: -0.0734, lower: -0.785398, upper: 0.785398, enabled: true}
+  - {slot: 5,  name: arm_right_shoulder_pitch_joint, bus: right, device_id: 2,  direction: +1, gear_ratio: 15.0, offset: 0.0,     lower: -0.785398, upper: 1.5708, enabled: true}
+  - {slot: 6,  name: arm_right_shoulder_roll_joint,  bus: right, device_id: 4,  direction: -1, gear_ratio: 15.0, offset: 0.0,     lower: -1.309, upper: 0.261799, enabled: true}
+  - {slot: 7,  name: arm_right_shoulder_yaw_joint,   bus: right, device_id: 6,  direction: +1, gear_ratio: 15.0, offset: 0.0,     lower: -0.785398, upper: 0.785398, enabled: true}
+  # CAN 8: encoder eccentricity (2026-10-14) -> torque reversal. Read-only until fixed.
+  - {slot: 8,  name: arm_right_elbow_pitch_joint,    bus: right, device_id: 8,  direction: -1, gear_ratio: 15.0, offset: 0.0,     lower: -1.5708, upper: 0.0, enabled: false}
+  - {slot: 9,  name: arm_right_elbow_roll_joint,     bus: right, device_id: 10, direction: +1, gear_ratio: 15.0, offset: 0.0,     lower: -0.785398, upper: 0.785398, enabled: true}
+  # Legs: reserved slots (no device_id = not present, never read or driven).
+  - {slot: 10, name: leg_left_hip_roll_joint}
+  - {slot: 11, name: leg_left_hip_yaw_joint}
+  - {slot: 12, name: leg_left_hip_pitch_joint}
+  - {slot: 13, name: leg_left_knee_pitch_joint}
+  - {slot: 14, name: leg_left_ankle_pitch_joint}
+  - {slot: 15, name: leg_left_ankle_roll_joint}
+  - {slot: 16, name: leg_right_hip_roll_joint}
+  - {slot: 17, name: leg_right_hip_yaw_joint}
+  - {slot: 18, name: leg_right_hip_pitch_joint}
+  - {slot: 19, name: leg_right_knee_pitch_joint}
+  - {slot: 20, name: leg_right_ankle_pitch_joint}
+  - {slot: 21, name: leg_right_ankle_roll_joint}
+
+# Hand + wrist units: one ESP32 per side on that arm's CAN bus, 17 motors.
+# driver: none  -> nothing is sent (default until the ESP32 protocol is filled in)
+#         sim   -> simulated hand (targets echoed with a lag)
+#         esp32 -> bhl_onboard/hand.py Esp32Hand (PROTOCOL TO BE DEFINED)
+# `joints` maps the 17 slots onto URDF joint names for /joint_states and the
+# trajectory server. Unknown slots keep a placeholder name.
+hands:
+  left:
+    bus: left
+    driver: none
+    esp32: {}                 # node id / frame ids go here once defined
+    joints: [left_hand_m00, left_hand_m01, left_hand_m02, left_hand_m03, left_hand_m04,
+             left_hand_m05, left_hand_m06, left_hand_m07, left_hand_m08, left_hand_m09,
+             left_hand_m10, left_hand_m11, left_hand_m12, left_hand_m13, left_hand_m14,
+             left_hand_m15, left_hand_m16]
+    lower: -3.14159           # scalar or list of 17
+    upper: 3.14159
+  right:
+    bus: right
+    driver: none
+    esp32: {}
+    joints: [right_hand_m00, right_hand_m01, right_hand_m02, right_hand_m03, right_hand_m04,
+             right_hand_m05, right_hand_m06, right_hand_m07, right_hand_m08, right_hand_m09,
+             right_hand_m10, right_hand_m11, right_hand_m12, right_hand_m13, right_hand_m14,
+             right_hand_m15, right_hand_m16]
+    lower: -3.14159
+    upper: 3.14159
+
+hand_presets:                 # 17 values each, hand slot order
+  zero: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+hand_preset_duration: 1.0
+
+# ---- commander (trajectory server, runs on the board) ---------------------
+commander:
+  # 100 Hz: measured on the X5 2026-10-16, 200 Hz streaming costs the board
+  # ~50% more CPU for no visible gain (bhl_lowlevel slews at 200 Hz anyway).
+  rate_hz: 100.0
+  goal_time_tolerance: 0.5    # [s] after the last point to reach goal tolerance
+  goal_tolerance: 0.05        # [rad]
+  # Joints in a goal that are not in `motors` or `hands.*.joints`:
+  #   reject -> the goal is rejected; ignore -> they are skipped with a warning.
+  # MoveIt's arms_controller lists the six wrist joints, which live on the
+  # hand ESP32s and are not mapped yet -- hence `ignore` for bring-up.
+  unmapped_joints: ignore
+  controllers:                # same names as moveit_controllers_hardware.yaml
+    arms_controller:
+      - arm_left_shoulder_pitch_joint
+      - arm_left_shoulder_roll_joint
+      - arm_left_shoulder_yaw_joint
+      - arm_left_elbow_pitch_joint
+      - arm_left_elbow_roll_joint
+      - arm_right_shoulder_pitch_joint
+      - arm_right_shoulder_roll_joint
+      - arm_right_shoulder_yaw_joint
+      - arm_right_elbow_pitch_joint
+      - arm_right_elbow_roll_joint
+      - arm_left_wrist_pitch_lower_joint
+      - arm_left_wrist_yaw_joint
+      - arm_left_wrist_pitch_upper_joint
+      - arm_right_wrist_pitch_lower_joint
+      - arm_right_wrist_yaw_joint
+      - arm_right_wrist_pitch_upper_joint

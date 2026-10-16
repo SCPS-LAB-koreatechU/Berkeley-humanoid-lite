@@ -1,0 +1,7 @@
+# side: "left" | "right" | "both";  name: a preset from config `hand_presets`
+string side
+string name
+float32 duration          # [s] blend time, 0 = config default
+---
+bool success
+string message
