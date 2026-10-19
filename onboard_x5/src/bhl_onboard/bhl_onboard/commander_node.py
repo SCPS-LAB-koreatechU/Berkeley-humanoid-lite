@@ -23,7 +23,6 @@ import bisect
 import functools
 import math
 import os
-import signal
 import threading
 import time
 from dataclasses import dataclass, field
@@ -32,7 +31,6 @@ import rclpy
 from control_msgs.action import FollowJointTrajectory
 from rclpy.action import ActionServer, CancelResponse, GoalResponse
 from rclpy.callback_groups import ReentrantCallbackGroup
-from rclpy.executors import SingleThreadedExecutor
 from rclpy.node import Node
 from rclpy.task import Future
 
@@ -42,7 +40,7 @@ from bhl_msgs.srv import HandPreset
 from . import config as config_mod
 from .config import NUM_HAND_MOTOR, NUM_MOTOR
 from .crc import seal
-from .lowlevel_node import COMMAND_QOS, STATE_QOS, default_config_path
+from .lowlevel_node import COMMAND_QOS, STATE_QOS, default_config_path, spin_until_signal
 from .polled import PolledSubscription, io_node
 
 ACTIVE = 2
@@ -310,6 +308,9 @@ class CommanderNode(Node):
             goal_handle.abort()
             return result
         key = controller
+        self.get_logger().info(
+            f"{controller}: goal received -- {len(plan.refs)} joints, {len(plan.times)} points, "
+            f"{plan.times[-1]:.2f} s")
         with self.lock:
             # A new goal on a joint already moving pre-empts the old one.
             for other_key, other in list(self.plans.items()):
@@ -350,6 +351,12 @@ class CommanderNode(Node):
         code, text = plan.result
         result.error_code, result.error_string = code, text
         if code == FollowJointTrajectory.Result.SUCCESSFUL:
+            with self.lock:
+                err = max(abs(self._measured(r) - self._expected(r, p))
+                          for r, p in zip(plan.refs, plan.positions[-1]))
+            self.get_logger().info(
+                f"{controller}: goal done in {time.monotonic() - plan.start:.2f} s, "
+                f"final error {err:.3f} rad")
             goal_handle.succeed()
         else:
             self.get_logger().warn(f"{controller}: {text}")
@@ -488,20 +495,7 @@ def main(argv=None) -> None:
     ros_args = [a for a in ros_args if a]
     rclpy.init(args=ros_args)
     node = CommanderNode(config_mod.load(args.config))
-    executor = SingleThreadedExecutor()
-    executor.add_node(node)
-    stop = threading.Event()
-    for sig in (signal.SIGINT, signal.SIGTERM):
-        signal.signal(sig, lambda *_: stop.set())
-    threading.Thread(target=executor.spin, daemon=True).start()
-    try:
-        stop.wait()
-    finally:
-        node.shutdown()
-        executor.shutdown(timeout_sec=1.0)
-        node.destroy_node()
-        if rclpy.ok():
-            rclpy.shutdown()
+    spin_until_signal(node, node.shutdown)
 
 
 if __name__ == "__main__":

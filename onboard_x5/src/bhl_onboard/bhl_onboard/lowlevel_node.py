@@ -287,6 +287,20 @@ def main(argv=None) -> None:
     rclpy.init(args=ros_args)
     cfg = config_mod.load(args.config)
     node = LowLevelNode(cfg, sim=args.sim)
+
+    def stop_node():
+        node.get_logger().info("shutting down: motors -> IDLE")
+        node.shutdown()
+
+    spin_until_signal(node, stop_node)
+
+
+def spin_until_signal(node, stop_node) -> None:
+    """Spin `node` on a single-threaded executor until SIGINT/SIGTERM, then
+    tear down in an order that cannot crash: our own shutdown first (motors),
+    then the executor, *wait for its thread*, and only then destroy the node.
+    Destroying it while the spin thread still sat in the wait set aborted the
+    process ("terminate called without an active exception")."""
     executor = SingleThreadedExecutor()
     executor.add_node(node)
     stop = threading.Event()
@@ -297,9 +311,9 @@ def main(argv=None) -> None:
     try:
         stop.wait()
     finally:
-        node.get_logger().info("shutting down: motors -> IDLE")
-        node.shutdown()
-        executor.shutdown(timeout_sec=1.0)
+        stop_node()
+        executor.shutdown(timeout_sec=2.0)
+        spin.join(timeout=2.0)
         node.destroy_node()
         if rclpy.ok():
             rclpy.shutdown()
