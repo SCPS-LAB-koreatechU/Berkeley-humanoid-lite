@@ -55,6 +55,7 @@ recoil 모터(CAN)를 구동하는 **보드 측 저수준 제어 패키지**입�
 ./test.sh
 tools/bench_sim.sh            # 루프 Hz / CPU / 최악 지연
 tools/moveit_onboard_sim.sh   # PC MoveIt(onboard:=true) + 보드 시뮬 전체 경로
+tools/view_sim.sh             # 위 경로를 RViz2로 보기 + 데모 (--board sunrise@<X5 IP>: 보드는 X5에서)
 
 # 보드에서
 ./run_onboard.sh              # 실물 (IDLE로 시작 — 아무것도 안 움직임)
